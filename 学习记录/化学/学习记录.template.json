@@ -1,0 +1,15 @@
+{
+  "app_id": "general_learning_question_bank_stem",
+  "subject_id": "chemistry",
+  "subject_name": "化学",
+  "profile_id": "STUDENT_001",
+  "profile_name": "学生",
+  "source_html_version": "1.0.0-architecture",
+  "record_schema_version": "1.0",
+  "question_schema_version": "1.1",
+  "exported_at": "",
+  "required_packages": [],
+  "events": [],
+  "feedback": [],
+  "question_state": {}
+}

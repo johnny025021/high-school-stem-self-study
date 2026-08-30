@@ -1,0 +1,18 @@
+# Never publish real learner records or credentials from the public site repository.
+学习记录/**/快照/*.json
+学习记录/**/自动备份/*.json
+学习记录/**/迁移备份/*.json
+学习记录/**/导入归档/*.json
+学习记录/**/缺失题库/*.json
+学习记录/**/兼容性报告/*.json
+
+.env
+.env.*
+*.token
+*.secret
+.DS_Store
+Thumbs.db
+
+# Generated local validation snapshots contain node-local paths.
+验收/structure-validation.json
+验收/*-acceptance-results.json

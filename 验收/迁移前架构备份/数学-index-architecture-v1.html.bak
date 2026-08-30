@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#4338ca">
+  <title>数学自主学习 · STEMBank</title>
+  <link rel="stylesheet" href="../../公共资源/styles.css">
+</head>
+<body class="subject-page math">
+  <header class="topbar">
+    <div><p class="eyebrow">STEMBank · Mathematics</p><h1>高中数学自主学习</h1></div>
+    <div class="top-actions"><span class="status-pill" id="subjectVersion"></span><span class="status-pill status-ready" id="subjectStatus"></span><a class="home-link" href="../../index.html">返回学科首页</a></div>
+  </header>
+  <nav class="module-tabs" role="tablist" aria-label="数学学习板块">
+    <button class="module-tab on" role="tab" data-module="chapter_practice">章节练习</button>
+    <button class="module-tab" role="tab" data-module="formula_memory">公式记忆</button>
+    <button class="module-tab" role="tab" data-module="secondary_conclusion_memory">二级结论记忆</button>
+  </nav>
+  <main class="subject-layout">
+    <aside class="panel side-panel">
+      <h2>学习范围</h2>
+      <label class="field"><span>选择书籍 / 题库大类</span><select id="librarySelect"><option value="">请选择题库</option></select></label>
+      <div class="section-title">选择当前想练的章节</div>
+      <div class="chapter-empty">题库迁移后显示完整章节清单，并支持多选、全选、清空和明确应用。</div>
+      <div class="button-row"><button class="action-button" disabled>全选 / 清空</button><button class="action-button primary" disabled>应用章节</button></div>
+      <div class="section-title">题库接入</div>
+      <label class="action-button primary" for="packageInput">选择数学题库 ZIP</label>
+      <input class="file-choice" id="packageInput" type="file" accept=".zip" multiple>
+      <div class="queue-note" id="queueNote">尚未选择题库包</div>
+    </aside>
+    <section class="panel workspace-panel">
+      <div class="workspace-head"><h2 id="moduleTitle">章节练习</h2><span class="status-pill" id="activeModulePill">章节练习</span></div>
+      <div class="module-view empty-workspace"><div><div class="empty-symbol" id="moduleSymbol">题</div><h3>数学学习工作区已建立</h3><p id="moduleDescription"></p><div class="status-card">下一阶段迁移 MathBank V3.0.3 的真实题库导入、章节选择、题面答案、母题入口和学习记录功能。</div></div></div>
+    </section>
+    <aside class="panel side-panel">
+      <h2>数学学习记录</h2>
+      <div class="metric-list"><div class="metric"><span>今日完成</span><b>0</b></div><div class="metric"><span>累计掌握</span><b>0</b></div><div class="metric"><span>当前错题</span><b>0</b></div></div>
+      <div class="section-title">独立存储空间</div>
+      <div class="record-path"><b>文件目录</b><br><span id="recordPath"></span><br><br><b>浏览器数据库</b><br><span id="dbName"></span></div>
+      <div class="button-row"><button class="action-button" disabled>导入记录</button><button class="action-button" disabled>导出记录</button></div>
+    </aside>
+  </main>
+  <script src="app.js"></script>
+  <script src="../../公共资源/subject-shell.js"></script>
+</body>
+</html>

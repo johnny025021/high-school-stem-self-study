@@ -1,0 +1,143 @@
+{
+  "schema_version": "1.0",
+  "delivery_id": "MATH_YKYL2026_U1_REVIEWED_FROZEN_V1.0",
+  "delivery_status": "ready_for_import_acceptance_test",
+  "created_at": "2026-08-30T01:35:00+08:00",
+  "subject_id": "math",
+  "curriculum_id": "shanghai_2020",
+  "book_id": "MATH_YKYL2026_U1",
+  "book_name": "2026《高中数学·一课一练》上册",
+  "package_profile": "MathBank Mathematics Schema 1.1 chapter_question_bank",
+  "package_version": "1.0-reviewed-frozen",
+  "chapter_count": 9,
+  "lesson_count": 106,
+  "question_count": 1378,
+  "asset_count": 2822,
+  "total_zip_bytes": 31315348,
+  "human_review_status": "complete",
+  "deterministic_rebuild_status": "passed_for_all_chapters",
+  "formal_import_acceptance_status": "not_started",
+  "formal_promotion_status": "not_authorized",
+  "path_contract": {
+    "delivery_root": ".",
+    "zip_paths_are_relative_to_delivery_root": true,
+    "source_pdfs_included": false,
+    "review_images_included": false,
+    "working_files_included": false
+  },
+  "knowledge_references": {
+    "repository": "https://github.com/johnny025021/AI-OS-Test",
+    "branch": "main",
+    "verified_method": "02-Knowledge/AI-Knowledge/04-Methods/Verified Scan Exercise-Book Question Bank Production Method.md",
+    "task": "01-Projects/Learning-System/Subject-Self-Study-System/Tasks/TASK-20260820-COMPUTER-A-001/Task.md",
+    "knowledge_commit": "daf796785b21a20e7f3818db57ffccc208756038",
+    "latest_record_commit_at_delivery_creation": "de36e05a18dfa0a14a1773b446946468753a1c99"
+  },
+  "chapters": [
+    {
+      "chapter": 1,
+      "lesson_count": 11,
+      "question_count": 143,
+      "asset_count": 290,
+      "file_name": "MATH_YKYL2026_U1_C01_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 2894299,
+      "sha256": "9B72C3F8EDA4C8FFBB729EDAD24B5166F2147135BFFCB73444FF7BF5A7B65105",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 2,
+      "lesson_count": 13,
+      "question_count": 169,
+      "asset_count": 343,
+      "file_name": "MATH_YKYL2026_U1_C02_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 2927665,
+      "sha256": "9C109A2C5EA2503837CC49EA1DCD1684F21C52E81934A4D1A0156BD4A7B6E76D",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 3,
+      "lesson_count": 12,
+      "question_count": 156,
+      "asset_count": 334,
+      "file_name": "MATH_YKYL2026_U1_C03_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 6224028,
+      "sha256": "AB08C451458C23994FA160B58A91A0EB6A06695577D5CEA63FADB0D3697BE8FB",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 4,
+      "lesson_count": 12,
+      "question_count": 156,
+      "asset_count": 321,
+      "file_name": "MATH_YKYL2026_U1_C04_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 3948358,
+      "sha256": "3CD6C300BA9635FDEEA6B76761DAB6F50E2FD6983485C91DD4F54BCB2B047E29",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 5,
+      "lesson_count": 16,
+      "question_count": 208,
+      "asset_count": 422,
+      "file_name": "MATH_YKYL2026_U1_C05_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 4236675,
+      "sha256": "F22F3DFE47C54D06815717EDB893ACE58A1CDF5FAC897EF1B5BA7C7D40C6314C",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 6,
+      "lesson_count": 10,
+      "question_count": 130,
+      "asset_count": 265,
+      "file_name": "MATH_YKYL2026_U1_C06_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 2792556,
+      "sha256": "656A7996A9AF1CA09DF5828DB51B8C0C9C4AC11DC8C06D97BAE16F794AB040C6",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 7,
+      "lesson_count": 10,
+      "question_count": 130,
+      "asset_count": 267,
+      "file_name": "MATH_YKYL2026_U1_C07_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 2372977,
+      "sha256": "8DCAD45BDD3D5F6987BE2951DB45ED784544FAE080F7FB8AAF68A99C91540FEE",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 8,
+      "lesson_count": 10,
+      "question_count": 130,
+      "asset_count": 262,
+      "file_name": "MATH_YKYL2026_U1_C08_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 1904264,
+      "sha256": "476B3B0B8770DDD3C38D288EC4ED2EF68E41696D8E20F6BB0730F8BE04C53CD4",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    },
+    {
+      "chapter": 9,
+      "lesson_count": 12,
+      "question_count": 156,
+      "asset_count": 318,
+      "file_name": "MATH_YKYL2026_U1_C09_V1.0_REVIEWED_FROZEN.zip",
+      "bytes": 4014526,
+      "sha256": "FCB93642A847980BACE74EAEEA33D7248CBC0327FF5D0D45AA5A50E287830CD5",
+      "validation": "passed",
+      "independent_rebuild_identical": true
+    }
+  ],
+  "next_task": {
+    "recommended_objective": "Run a real MathBank chapter-by-chapter import acceptance test without modifying the ZIPs.",
+    "start_file": "NEXT-TASK-HANDOFF.md",
+    "required_precheck": "Verify all nine hashes against SHA256SUMS.txt before import.",
+    "required_output": "An import acceptance report containing importer version, environment, per-chapter results, stable-ID checks, display checks, duplicate-import behavior, and rollback evidence."
+  }
+}

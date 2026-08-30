@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#24314d">
+  <title>高中数理化自主学习</title>
+  <link rel="manifest" href="app.webmanifest">
+  <link rel="stylesheet" href="公共资源/styles.css">
+</head>
+<body class="home-page">
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">STEMBank V1.2.0 · GitHub 在线题库与本地学习</p>
+      <h1>高中数理化自主学习</h1>
+    </div>
+    <div class="top-actions">
+      <span class="status-pill">统一入口</span>
+      <span class="status-pill status-ready">三学科独立数据</span>
+    </div>
+  </header>
+
+  <main class="home-shell">
+    <section class="welcome-panel" aria-labelledby="welcome-title">
+      <div>
+        <span class="section-kicker">选择今天要学习的学科</span>
+        <h2 id="welcome-title">从学科进入，再选择学习板块、题库和章节</h2>
+        <p>数学、物理、化学分别维护题库和学习记录，升级互不影响。三个学科统一提供章节练习、公式记忆和二级结论记忆。</p>
+      </div>
+      <div class="flow-strip" aria-label="学习流程">
+        <span>1 选择学科</span><i>→</i><span>2 选择板块</span><i>→</i><span>3 选择题库与章节</span><i>→</i><span>4 开始学习</span>
+      </div>
+    </section>
+
+    <section class="subject-grid" aria-label="学科选择">
+      <a class="subject-card math" href="学科/数学/index.html" data-subject="math">
+        <div class="subject-mark" aria-hidden="true">∑</div>
+        <div class="subject-copy">
+          <div class="subject-head"><h2>数学</h2><span>进入学科 →</span></div>
+          <p>承接 MathBank V3 的书籍、章节和母题学习流程。</p>
+          <div class="module-chips"><span>章节练习</span><span>公式记忆</span><span>二级结论</span></div>
+          <small>数学 V3.1.1 · 在线按章安装 · 一课一练与母题400已就绪</small>
+        </div>
+      </a>
+
+      <a class="subject-card physics" href="学科/物理/index.html" data-subject="physics">
+        <div class="subject-mark" aria-hidden="true">F</div>
+        <div class="subject-copy">
+          <div class="subject-head"><h2>物理</h2><span>进入学科 →</span></div>
+          <p>面向力学、热学等章节题库，强化公式条件和单位记忆。</p>
+          <div class="module-chips"><span>章节练习</span><span>公式记忆</span><span>二级结论</span></div>
+          <small>基础架构已就绪 · 待接入物理候选题库</small>
+        </div>
+      </a>
+
+      <a class="subject-card chemistry" href="学科/化学/index.html" data-subject="chemistry">
+        <div class="subject-mark" aria-hidden="true">⚗</div>
+        <div class="subject-copy">
+          <div class="subject-head"><h2>化学</h2><span>进入学科 →</span></div>
+          <p>预留书籍解析、方程式记忆和实验结论学习接口。</p>
+          <div class="module-chips"><span>章节练习</span><span>公式与方程式</span><span>二级结论</span></div>
+          <small>基础架构已就绪 · 等待首批书籍解析</small>
+        </div>
+      </a>
+    </section>
+
+    <section class="architecture-note">
+      <div><b>题库分离</b><span>题库/数学、题库/物理、题库/化学</span></div>
+      <div><b>记录分离</b><span>学习记录按学科独立保存和迁移</span></div>
+      <div><b>界面分离</b><span>每个学科拥有独立页面与版本号</span></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">STEMBank 高中数理化自主学习系统 · GitHub 在线题库版 V1.2.0</footer>
+  <script src="公共资源/home.js"></script>
+</body>
+</html>

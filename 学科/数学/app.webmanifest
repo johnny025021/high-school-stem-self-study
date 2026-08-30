@@ -1,0 +1,10 @@
+{
+  "name": "STEMBank 数学 V3.1.0 高中数学自主学习",
+  "short_name": "STEMBank 数学",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f4f6fa",
+  "theme_color": "#4338ca",
+  "description": "统一数理化系统中的独立数学界面，支持一课一练、母题400、公式记忆、二级结论和跨设备学习记录。"
+}

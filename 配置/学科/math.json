@@ -1,0 +1,15 @@
+{
+  "subject_id": "math",
+  "subject_name": "数学",
+  "page_version": "3.1.1",
+  "page_path": "学科/数学/index.html",
+  "question_root": "题库/数学",
+  "record_root": "学习记录/数学",
+  "database_name": "general_learning_question_bank_stem_math_v1",
+  "migration_source": "MathBank_V3.0.0/index.html (internal V3.0.3)",
+  "migration_status": "complete_pending_human_ui_review",
+  "included_libraries": [
+    "2026高中数学一课一练上册",
+    "高中数学母题400"
+  ]
+}

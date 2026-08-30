@@ -1,0 +1,15 @@
+{
+  "app_id": "general_learning_question_bank_stem",
+  "app_name": "高中数理化自主学习",
+  "app_version": "1.2.0-github-online",
+  "offline_first": true,
+  "entry": "index.html",
+  "subjects": ["math", "physics", "chemistry"],
+  "modules": [
+    "chapter_practice",
+    "formula_memory",
+    "secondary_conclusion_memory"
+  ],
+  "question_schema_version": "1.1",
+  "record_schema_version": "1.0"
+}

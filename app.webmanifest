@@ -1,0 +1,9 @@
+{
+  "name": "高中数理化自主学习",
+  "short_name": "STEMBank",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f3f5f8",
+  "theme_color": "#24314d",
+  "lang": "zh-CN"
+}
