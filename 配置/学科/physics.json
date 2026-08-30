@@ -1,10 +1,14 @@
 {
   "subject_id": "physics",
   "subject_name": "物理",
-  "page_version": "1.0.0-architecture",
+  "page_version": "3.1.0-local-candidate",
   "page_path": "学科/物理/index.html",
   "question_root": "题库/物理",
   "record_root": "学习记录/物理",
   "database_name": "general_learning_question_bank_stem_physics_v1",
-  "migration_source": "PhysicsBank V2.2.0 and reviewed chapter ZIP candidates"
+  "migration_source": "PhysicsBank V2.2.0 and reviewed chapters 1-10",
+  "online_package_count": 10,
+  "question_count": 790,
+  "section_count": 58,
+  "publication_status": "local_human_review_required"
 }

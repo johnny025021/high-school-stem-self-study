@@ -7,12 +7,12 @@ $ErrorActionPreference = 'Stop'
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
 $site = [IO.Path]::GetFullPath($SiteRoot)
-$questionBankRoot = Join-Path $site '题库\数学'
+$questionBankRoot = Join-Path $site '题库'
 $outputDirectory = Join-Path $site 'data'
 $outputPath = Join-Path $outputDirectory 'catalog.json'
 
 if (-not (Test-Path -LiteralPath $questionBankRoot -PathType Container)) {
-    throw "Mathematics question-bank root not found: $questionBankRoot"
+    throw "Question-bank root not found: $questionBankRoot"
 }
 
 $packages = foreach ($zipFile in Get-ChildItem -LiteralPath $questionBankRoot -Recurse -File -Filter '*.zip') {
@@ -34,18 +34,26 @@ $packages = foreach ($zipFile in Get-ChildItem -LiteralPath $questionBankRoot -R
         }
 
         $isMother = [int]($manifest.mother_question_count ?? 0) -gt 0
+        $subjectId = [string]($manifest.subject_id ?? '')
+        if (-not $subjectId) {
+            throw "subject_id not found in $($zipFile.Name)"
+        }
         $relativePath = [IO.Path]::GetRelativePath($site, $zipFile.FullName).Replace('\', '/')
         [ordered]@{
             package_id = [string]$manifest.package_id
-            subject_id = 'math'
+            subject_id = $subjectId
             version = [string]($manifest.package_version ?? '1.0')
             package_name = if ($manifest.package_name) { [string]$manifest.package_name } elseif ($isMother) { "$($manifest.chapter_name) 核心母题" } else { [string]$manifest.chapter_name }
+            library_id = [string]$manifest.library_id
             book_id = [string]$manifest.book_id
             book_name = [string]$manifest.book_name
+            book_code = [string]$manifest.book_code
             chapter_id = [string]$manifest.chapter_id
             chapter_name = [string]$manifest.chapter_name
+            chapter_order = [int]($manifest.chapter_order ?? 0)
             question_count = [int]$manifest.question_count
-            module_id = if ($isMother) { 'mother_question' } else { 'chapter_practice' }
+            section_count = [int]($manifest.section_count ?? 0)
+            module_id = if ($manifest.module_id) { [string]$manifest.module_id } elseif ($isMother) { 'mother_question' } else { 'chapter_practice' }
             mother_question_count = if ($isMother) { [int]$manifest.mother_question_count } else { 0 }
             file_name = $zipFile.Name
             file_size = [long]$zipFile.Length
@@ -58,7 +66,7 @@ $packages = foreach ($zipFile in Get-ChildItem -LiteralPath $questionBankRoot -R
     }
 }
 
-$packages = @($packages | Sort-Object @{ Expression = { if ($_.book_id -eq 'MATH_YKYL2026_U1') { 0 } else { 1 } } }, chapter_id)
+$packages = @($packages | Sort-Object subject_id, library_id, book_id, @{ Expression = { $_.chapter_order } }, chapter_id)
 $catalog = [ordered]@{
     schema_version = '1.0'
     app_id = 'general_learning_question_bank'

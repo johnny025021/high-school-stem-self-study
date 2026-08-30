@@ -1,3 +1,3 @@
 # 物理数据库
 
-预留物理 IndexedDB 结构、版本迁移和兼容性记录。物理学习事件只能使用 `subject_id: physics`。
+物理页面使用独立 IndexedDB：`general_learning_question_bank_stem_physics_v1`。题库元数据、缓存、作答事件、反馈、设置和目录句柄均与数学、化学隔离；物理学习事件只能使用 `subject_id: physics`。
