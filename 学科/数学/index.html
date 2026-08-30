@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#4338ca">
-  <title>STEMBank 数学 V3.1.1 · 高中数学自主学习</title>
+  <title>STEMBank 数学 V3.1.2 · 高中数学自主学习</title>
   <link rel="manifest" href="app.webmanifest">
   <style>
     :root{--indigo:#4338ca;--indigo2:#eef2ff;--ink:#172033;--muted:#64748b;--line:#dfe5ee;--bg:#f4f6fa;--green:#08785d;--amber:#a95f12;--red:#b42318;--blue:#155eef}
@@ -113,6 +113,7 @@
     .system-home-link{text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
     .online-source-note{border-color:#9bc9b3;background:#f1fbf6}.online-source-note h3{color:#18724b}.sync-security-note{line-height:1.65}.sync-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.sync-grid .field-wide{grid-column:1/-1}.sync-status{margin-top:10px}.sync-status b{display:block;margin-bottom:4px}.sync-status small{color:var(--muted);line-height:1.5}
     @media(max-width:700px){.sync-grid{grid-template-columns:1fr}.sync-grid .field-wide{grid-column:auto}}
+    .lesson-picker{margin:12px 0;border:1px solid #a9bae6;background:linear-gradient(145deg,#f2f6ff,#fff);border-radius:14px;padding:12px}.lesson-picker-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}.lesson-picker-head label{font-weight:800;color:var(--indigo)}.lesson-picker-head span{font-size:11px;border-radius:999px;padding:3px 8px;background:#e5ebff;color:#5266a3}.lesson-picker select{width:100%;padding:11px;border:1px solid #9fb1df;border-radius:10px;background:#fff;color:var(--ink);font-weight:700}.lesson-picker select:disabled{background:#eef1f6;color:#8a94a6}.lesson-picker small{display:block;color:var(--muted);line-height:1.55;margin-top:7px}
 
   </style>
 </head>
@@ -120,7 +121,7 @@
 <header class="top">
   <div><p class="eyebrow">STEMBank 数学 · GitHub 在线题库版</p><h1>高中数学自主学习</h1></div>
   <div class="top-actions">
-    <span class="pill" id="versionPill">数学 V3.1.1</span>
+    <span class="pill" id="versionPill">数学 V3.1.2</span>
     <span class="pill warn" id="rootPill">在线题库加载中</span>
     <span class="pill warn" id="recordPill">未设置记录保存目录</span>
     <button class="btn primary small" id="openImport">题库来源</button>
@@ -173,6 +174,12 @@
       <div class="btn-row" style="margin-top:9px"><button class="btn outline small" id="selectAllChapters">全选/取消</button><button class="btn primary small" id="loadChapter">应用章节选择</button></div>
     </div>
 
+    <div class="lesson-picker" id="lessonPicker">
+      <div class="lesson-picker-head"><label for="lesson">选择本章课次 / 节</label><span id="lessonOptionCount">0课次</span></div>
+      <select id="lesson" disabled><option value="all">请先选择并应用章节</option></select>
+      <small id="lessonHelp">应用章节后，可在这里进一步选择与当前课程进度对应的课次。</small>
+    </div>
+
     <div class="section-title">今天练什么</div>
     <div class="quick-scope" id="quickScope">
       <button type="button" data-quick-scope="unseen_only" class="on"><b>未做题</b><small>优先完成新题</small></button>
@@ -191,7 +198,6 @@
     </div>
     <details class="advanced-filter">
       <summary>高级筛选：知识点、题型和显示方式</summary>
-      <label class="field lesson-field"><span>一课一练课次</span><select id="lesson"><option value="all">全部课次</option></select></label>
       <label class="field"><span>知识点</span><select id="knowledge"><option value="all">全部知识点</option></select></label>
       <label class="field"><span>题型</span><select id="type"><option value="all">全部题型</option></select></label>
       <label class="field"><span>显示方式</span><select id="display"><option value="all">全部显示方式</option></select></label>
@@ -501,7 +507,7 @@
 <script>
 "use strict";
 const APP={
-  appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.1.1",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
+  appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.1.2",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
 };
 const STORES={packageMeta:"package_meta",packageFiles:"package_files",events:"events",feedback:"feedback",settings:"settings",handles:"handles"};
 const TYPES={single_choice:"单选题",multiple_choice:"多选题",true_false:"判断题",fill_blank:"填空题",solution:"解答题"};
@@ -1532,7 +1538,28 @@ async function initV311(){await initV303();bindV311Handlers();await loadCloudSyn
 /* ======================= V3.1.1 GitHub 在线题库与记录同步层结束 ======================= */
 
 
-initV311().catch(e=>notice(`初始化失败：${e.message}`,6000));
+/* ========================= V3.1.2 章下课次快捷选择层 ========================= */
+const V312={selectedByLibrary:{}};
+const initializeChapterV311=initializeChapter,refreshRangeCountV311=refreshRangeCount;
+
+function lessonRowsV312(){
+  const map=new Map();for(const q of V21.questionIndex){if(!q.section_id)continue;const id=String(q.section_id);if(!map.has(id))map.set(id,{id,name:q.section_name||id,chapter:q.chapter_name||"当前章节",chapterId:q.chapter_id||q._package_id||"",count:0,order:Number(q.display_order||0)});const row=map.get(id);row.count++;row.order=Math.min(row.order,Number(q.display_order||0))}return[...map.values()].sort((a,b)=>String(a.chapterId).localeCompare(String(b.chapterId),"zh-CN",{numeric:true})||a.order-b.order||String(a.id).localeCompare(String(b.id),"zh-CN",{numeric:true}))
+}
+function renderLessonPickerV312(){
+  const select=$("lesson"),rows=lessonRowsV312(),library=V302.selectedLibraryId||"one_lesson",desired=V312.selectedByLibrary[library]||select.value||"all",chapterCount=V21.activePackageIds.size;select.innerHTML="";select.add(new Option(`全部已选课次（${V21.questionIndex.length}题）`,"all"));if(chapterCount>1){const groups=new Map();for(const row of rows){if(!groups.has(row.chapterId)){const group=document.createElement("optgroup");group.label=row.chapter;groups.set(row.chapterId,group);select.appendChild(group)}groups.get(row.chapterId).appendChild(new Option(`${row.name}（${row.count}题）`,row.id))}}else for(const row of rows)select.add(new Option(`${row.name}（${row.count}题）`,row.id));select.disabled=!rows.length;select.value=[...select.options].some(option=>option.value===desired)?desired:"all";V312.selectedByLibrary[library]=select.value;$("lessonOptionCount").textContent=`${rows.length}课次`;if(!V21.activePackageIds.size)$("lessonHelp").textContent="先勾选章节并点击“应用章节选择”，再选择当前课程对应的课次。";else if(!rows.length)$("lessonHelp").textContent="当前题库没有提供课次层级，练习范围按所选章节计算。";else updateLessonHelpV312(filteredQuestions().length)
+}
+function updateLessonHelpV312(count){
+  const select=$("lesson");if(!V21.activePackageIds.size||select.disabled)return;const selected=select.value==="all"?"全部已选课次":select.selectedOptions[0]?.textContent||"当前课次";$("lessonHelp").textContent=`${selected} · 当前符合 ${count} 题。开始练习只会从这个范围出题。`
+}
+initializeChapter=function(){initializeChapterV311();renderLessonPickerV312();refreshRangeCount()};
+refreshRangeCount=function(){refreshRangeCountV311();updateLessonHelpV312(filteredQuestions().length)};
+async function loadLessonSelectionV312(){const saved=await dbGet(STORES.settings,"lesson_selection_by_library_v312");V312.selectedByLibrary=saved?.value&&typeof saved.value==="object"?saved.value:{};renderLessonPickerV312();refreshRangeCount()}
+function bindV312Handlers(){$("lesson").onchange=()=>{V312.selectedByLibrary[V302.selectedLibraryId||"one_lesson"]=$("lesson").value;void dbPut(STORES.settings,{key:"lesson_selection_by_library_v312",value:V312.selectedByLibrary});refreshRangeCount()}}
+async function initV312(){await initV311();await loadLessonSelectionV312();bindV312Handlers();$("versionPill").textContent="数学 V3.1.2";$("versionPill").title="STEMBank 数学 V3.1.2 · 章节下课次快捷选择 · GitHub 在线题库 · 私有学习记录同步"}
+/* ======================= V3.1.2 章下课次快捷选择层结束 ======================= */
+
+
+initV312().catch(e=>notice(`初始化失败：${e.message}`,6000));
 
 
 </script>

@@ -1,4 +1,4 @@
-const CACHE_NAME = "stembank-math-shell-v3.1.1";
+const CACHE_NAME = "stembank-math-shell-v3.1.2";
 const SHELL_URLS = ["./", "./index.html", "./app.webmanifest", "../../data/catalog.json"];
 
 self.addEventListener("install", event => {
