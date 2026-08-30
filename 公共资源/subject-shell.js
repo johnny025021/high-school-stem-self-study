@@ -53,6 +53,13 @@
     button.addEventListener("click", () => setModule(button.dataset.module));
   });
 
+  const padToolsDialog = document.querySelector("#padToolsDialog");
+  document.querySelector("#openPadTools")?.addEventListener("click", () => padToolsDialog?.showModal());
+  document.querySelector("#closePadTools")?.addEventListener("click", () => padToolsDialog?.close());
+  padToolsDialog?.addEventListener("click", (event) => {
+    if (event.target === padToolsDialog) padToolsDialog.close();
+  });
+
   packageInput.addEventListener("change", () => {
     const files = [...packageInput.files];
     queueNote.textContent = files.length

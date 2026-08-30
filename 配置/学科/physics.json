@@ -1,7 +1,7 @@
 {
   "subject_id": "physics",
   "subject_name": "物理",
-  "page_version": "3.1.0-local-candidate",
+  "page_version": "3.2.0",
   "page_path": "学科/物理/index.html",
   "question_root": "题库/物理",
   "record_root": "学习记录/物理",
@@ -10,5 +10,5 @@
   "online_package_count": 10,
   "question_count": 790,
   "section_count": 58,
-  "publication_status": "local_human_review_required"
+  "publication_status": "published_pad_landscape"
 }

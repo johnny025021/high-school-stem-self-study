@@ -16,6 +16,11 @@
     <button class="module-tab on" role="tab" data-module="chapter_practice">章节练习</button>
     <button class="module-tab" role="tab" data-module="formula_memory">公式与方程式记忆</button>
     <button class="module-tab" role="tab" data-module="secondary_conclusion_memory">二级结论记忆</button>
+    <div class="module-tab-actions">
+      <button class="action-button compact" disabled>题库管理</button>
+      <button class="action-button compact" disabled>学习统计</button>
+      <button class="action-button compact" id="openPadTools" type="button">扩展设置</button>
+    </div>
   </nav>
   <main class="subject-layout">
     <aside class="panel side-panel">
@@ -41,6 +46,13 @@
       <div class="button-row"><button class="action-button" disabled>导入记录</button><button class="action-button" disabled>导出记录</button></div>
     </aside>
   </main>
+  <dialog class="shell-dialog" id="padToolsDialog" aria-labelledby="padToolsTitle">
+    <div class="shell-dialog-head"><div><p class="eyebrow">Pad 快捷入口</p><h2 id="padToolsTitle">扩展设置</h2></div><button class="action-button compact" id="closePadTools" type="button">关闭</button></div>
+    <div class="pad-tools-grid">
+      <section><h3>学习记录</h3><p>化学学习记录将与数学、物理一样独立保存；首批题库接入时启用导入、导出与恢复。</p><button class="action-button" disabled>备份学习记录</button></section>
+      <section><h3>题库与云同步</h3><p>当前为架构页。冻结化学题库接入后，这里提供题库管理、在线同步与存储设置。</p><button class="action-button" disabled>打开同步设置</button></section>
+    </div>
+  </dialog>
   <script src="app.js"></script>
   <script src="../../公共资源/subject-shell.js"></script>
 </body>

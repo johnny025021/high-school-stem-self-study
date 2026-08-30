@@ -2,7 +2,7 @@ window.SUBJECT_CONFIG = {
   id: "chemistry",
   name: "高中化学",
   folder: "化学",
-  version: "V1.0.0-architecture",
+  version: "V1.1.0-pad-landscape",
   status: "等待首批书籍解析",
   dbName: "general_learning_question_bank_stem_chemistry_v1",
   formulaTitle: "公式与方程式记忆",

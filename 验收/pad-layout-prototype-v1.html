@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <title>STEMBank Pad 横屏布局示例 V1</title>
+  <style>
+    :root{--ink:#172033;--muted:#68758a;--line:#dfe5ed;--bg:#eef2f7;--card:#fff;--blue:#3156d8;--blue2:#edf2ff;--green:#15805f;--amber:#9b6812;--shadow:0 5px 18px rgba(31,42,68,.07)}
+    *{box-sizing:border-box}html,body{height:100%;margin:0}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Microsoft YaHei",sans-serif;color:var(--ink);background:var(--bg);overflow:hidden}button,select{font:inherit}button{cursor:pointer}
+    .topbar{height:52px;padding:7px 12px;display:flex;align-items:center;gap:12px;background:#fff;border-bottom:1px solid var(--line)}.brand{min-width:210px}.brand small{display:block;color:var(--blue);font-size:10px;font-weight:800;letter-spacing:.08em}.brand b{display:block;font-size:17px;margin-top:1px}.top-status{font-size:11px;color:var(--muted);white-space:nowrap}.top-actions{margin-left:auto;display:flex;align-items:center;gap:6px}
+    .modulebar{height:42px;padding:5px 12px;display:flex;align-items:center;gap:6px;background:#f8fafc;border-bottom:1px solid var(--line)}.modulebar .right{margin-left:auto;display:flex;gap:6px}.tab,.btn{border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);padding:7px 10px;font-weight:700;font-size:12px}.tab.on,.btn.primary{color:#fff;background:var(--blue);border-color:var(--blue)}.btn.soft{color:var(--blue);background:var(--blue2);border-color:#cbd8ff}.btn.icon::before{content:"⚙";margin-right:4px}
+    .workspace{height:calc(100dvh - 94px);display:grid;grid-template-columns:clamp(165px,15.5vw,190px) minmax(0,1fr) clamp(140px,12.5vw,160px);gap:8px;padding:8px}.panel{min-width:0;min-height:0;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+    .left,.right-panel{overflow:auto;padding:10px;scrollbar-width:thin}.panel-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}.panel-head h2{font-size:14px;margin:0}.mini-count{padding:3px 6px;border-radius:999px;background:var(--blue2);color:var(--blue);font-size:10px;font-weight:800}
+    .field{display:grid;gap:3px;margin:6px 0}.field>span,.label{font-size:10px;color:var(--muted);font-weight:700}.field select{width:100%;min-width:0;border:1px solid var(--line);border-radius:7px;background:#fff;padding:6px 7px;font-size:11px;color:var(--ink)}
+    .chapter-box{border:1px solid var(--line);border-radius:9px;padding:6px;margin-top:7px;background:#fbfcfe}.chapter-row{display:grid;grid-template-columns:18px 1fr;gap:4px;align-items:start;padding:4px 2px;font-size:11px}.chapter-row input{margin:1px 0;accent-color:var(--blue)}.chapter-row small{display:block;color:var(--muted);font-size:9px;margin-top:1px}.left .btn{width:100%;padding:7px 6px;margin-top:5px;font-size:11px}
+    details{border-top:1px solid var(--line);margin-top:8px;padding-top:7px}summary{font-size:10px;font-weight:800;color:var(--muted);cursor:pointer}.scope-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-top:6px}.scope-grid button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 3px;font-size:10px}.scope-grid button.on{border-color:var(--blue);background:var(--blue2);color:var(--blue);font-weight:800}.range{margin:7px 0;padding:6px 7px;border-radius:8px;background:var(--blue2);font-size:10px;color:var(--muted)}.range b{display:block;color:var(--blue);font-size:15px}
+    .study{display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden}.question-head{padding:9px 12px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:8px}.question-head b{font-size:13px}.tags{display:flex;gap:4px;flex-wrap:wrap}.tag{padding:3px 6px;background:#f2f5f9;border-radius:999px;font-size:9px;color:#536174}.grow{margin-left:auto}.focus-badge{font-size:10px;color:var(--green);background:#eaf8f3;border-radius:999px;padding:4px 7px;font-weight:800}
+    .study-scroll{overflow:auto;scrollbar-width:thin;padding:11px 14px;background:#fff}.context{font-size:11px;color:var(--muted);margin-bottom:8px}.context b{color:var(--blue)}.question-text{font-size:15px;line-height:1.75}.formula{margin:10px 0;padding:11px;border:1px solid #d6def1;border-radius:10px;background:#fbfcff;text-align:center;font-family:Cambria,"Times New Roman",serif;font-size:20px}.answer{margin-top:14px;padding:12px 14px;border-radius:11px;background:#f4fbf8;border:1px solid #cceade}.answer-title{display:flex;align-items:center;justify-content:space-between;color:var(--green);font-size:13px;font-weight:800}.answer p{margin:7px 0 0;font-size:13px;line-height:1.72}.solution-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}.solution-card{padding:9px;background:#fff;border:1px solid #d9ebe4;border-radius:8px;font-size:11px;line-height:1.55}.solution-card b{display:block;color:var(--green);margin-bottom:3px}
+    .question-actions{min-height:48px;padding:7px 10px;border-top:1px solid var(--line);display:flex;align-items:center;gap:6px;background:#fbfcfe}.question-actions .right-actions{margin-left:auto;display:flex;gap:6px}.question-actions .btn{padding:7px 11px}.rate{display:flex;gap:4px}.rate button{border:1px solid var(--line);background:#fff;border-radius:7px;padding:6px 8px;font-size:10px}.rate button.on{border-color:var(--green);background:#eaf8f3;color:var(--green);font-weight:800}
+    .right-panel .student{padding:7px;border-radius:8px;background:#f7f9fc;margin-bottom:8px}.student b{display:block;font-size:12px}.student small{color:var(--muted);font-size:9px}.metric-list{display:grid;gap:5px}.metric{display:flex;align-items:center;justify-content:space-between;padding:7px 8px;border:1px solid var(--line);border-radius:8px}.metric span{font-size:10px;color:var(--muted)}.metric b{font-size:16px}.metric.em b{color:var(--green)}.progress-card{margin-top:8px;padding:8px;border-radius:9px;background:var(--blue2)}.progress-card .row{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}.bar{height:5px;border-radius:999px;background:#dce4fb;margin-top:6px;overflow:hidden}.bar i{display:block;width:58%;height:100%;background:var(--blue)}.record-note{margin-top:8px;font-size:9px;line-height:1.55;color:var(--muted)}
+    .backdrop{position:fixed;inset:0;background:rgba(15,23,42,.28);opacity:0;pointer-events:none;transition:.18s;z-index:20}.drawer{position:fixed;right:0;top:0;bottom:0;width:min(390px,78vw);background:#fff;box-shadow:-12px 0 32px rgba(15,23,42,.16);transform:translateX(100%);transition:.2s;z-index:21;padding:16px;overflow:auto}.drawer.open{transform:none}.backdrop.open{opacity:1;pointer-events:auto}.drawer-head{display:flex;justify-content:space-between;align-items:center}.drawer h2{margin:0;font-size:17px}.close{border:0;background:#eef2f7;border-radius:8px;padding:7px 10px}.setting-group{margin-top:14px;border:1px solid var(--line);border-radius:11px;padding:11px}.setting-group h3{margin:0 0 5px;font-size:13px}.setting-group p{margin:0 0 8px;color:var(--muted);font-size:11px;line-height:1.55}.setting-actions{display:grid;grid-template-columns:1fr 1fr;gap:6px}.setting-actions .btn{font-size:11px;padding:8px 5px}
+    .prototype-note{position:fixed;left:50%;bottom:5px;transform:translateX(-50%);z-index:5;font-size:9px;color:#fff;background:rgba(23,32,51,.72);padding:3px 8px;border-radius:999px;pointer-events:none}
+    @media(max-width:940px) and (orientation:landscape){.workspace{grid-template-columns:165px minmax(0,1fr) 145px;gap:6px;padding:6px}.brand{min-width:175px}.top-status{display:none}.left,.right-panel{padding:8px}.solution-grid{grid-template-columns:1fr}.metric{padding:6px}.metric b{font-size:14px}}
+    @media(orientation:portrait){body{overflow:auto}.workspace{height:auto;min-height:calc(100dvh - 94px);grid-template-columns:minmax(180px,29vw) minmax(0,1fr);overflow:visible}.study{min-height:720px}.right-panel{grid-column:1/-1;display:grid;grid-template-columns:150px repeat(5,1fr);gap:6px;align-items:start}.right-panel .panel-head{grid-column:1/-1}.right-panel .metric-list{display:contents}.progress-card,.record-note{display:none}}
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><small>STEMBank · PAD横屏学习模式</small><b>高中数学自主学习</b></div>
+    <span class="top-status">一课一练 · 第1章 集合与逻辑 · 集合及其表示方法</span>
+    <div class="top-actions"><button class="btn soft">← 选择学科</button></div>
+  </header>
+  <nav class="modulebar">
+    <button class="tab on">章节练习</button><button class="tab">公式记忆</button><button class="tab">二级结论记忆</button>
+    <div class="right"><button class="btn">题库管理</button><button class="btn">学习统计</button><button class="btn icon" id="openDrawer">扩展设置</button></div>
+  </nav>
+
+  <main class="workspace">
+    <aside class="panel left">
+      <div class="panel-head"><h2>练习范围</h2><span class="mini-count">紧凑</span></div>
+      <label class="field"><span>题库</span><select><option>一课一练</option><option>母题400</option></select></label>
+      <label class="field"><span>书籍</span><select><option>2026 高中数学·上册</option></select></label>
+      <div class="chapter-box">
+        <span class="label">章节</span>
+        <label class="chapter-row"><input type="checkbox" checked><span><b>第1章 集合与逻辑</b><small>143题 · 已加入</small></span></label>
+        <label class="chapter-row"><input type="checkbox"><span><b>第2章 等式与不等式</b><small>118题 · 在线</small></span></label>
+        <label class="chapter-row"><input type="checkbox"><span><b>第3章 幂、指数与对数</b><small>167题 · 在线</small></span></label>
+      </div>
+      <button class="btn soft">更改章节选择</button>
+      <label class="field"><span>节／课次</span><select><option>集合及其表示方法（13题）</option><option>集合之间的关系（12题）</option></select></label>
+      <div class="scope-grid"><button class="on">未做题</button><button>错题</button><button>已做题</button><button>全部题</button></div>
+      <details><summary>更多筛选（题型、难度、顺序）</summary><label class="field"><span>本次题量</span><select><option>全部13题</option><option>10题</option></select></label></details>
+      <div class="range"><b>13题</b>当前节可练习</div>
+      <button class="btn primary">开始练习</button>
+    </aside>
+
+    <section class="panel study">
+      <div class="question-head"><b>第 3 / 13 题</b><div class="tags"><span class="tag">填空题</span><span class="tag">一课一练</span><span class="tag">原题 3</span></div><span class="grow"></span><span class="focus-badge">中间区域约占 73%</span></div>
+      <div class="study-scroll">
+        <div class="context">2026高中数学·一课一练上册 · 第1章 · <b>集合及其表示方法</b></div>
+        <div class="question-text">已知集合 <i>A</i>＝{<i>x</i>｜<i>x</i><sup>2</sup>－3<i>x</i>＋2＝0}，集合 <i>B</i>＝{1，2，3}，求 <i>A</i>∩<i>B</i>。</div>
+        <div class="formula">A = {1, 2}　⇒　A ∩ B = {1, 2}</div>
+        <div class="answer">
+          <div class="answer-title"><span>答案与解析</span><span>已展开</span></div>
+          <p>由 <i>x</i><sup>2</sup>－3<i>x</i>＋2＝0，得（<i>x</i>－1）（<i>x</i>－2）＝0，所以 <i>A</i>＝{1，2}。由于1、2均属于集合 <i>B</i>，故交集为 {1，2}。</p>
+          <div class="solution-grid"><div class="solution-card"><b>关键步骤</b>先求解方程确定集合 A 中的元素，再按交集定义筛选公共元素。</div><div class="solution-card"><b>易错提醒</b>描述法集合必须先求出元素；不要把方程本身直接与集合 B 做运算。</div></div>
+        </div>
+      </div>
+      <footer class="question-actions"><button class="btn">上一题</button><div class="rate"><button>不会</button><button>部分会</button><button class="on">正确</button></div><div class="right-actions"><button class="btn">题目有误</button><button class="btn primary">保存并下一题</button></div></footer>
+    </section>
+
+    <aside class="panel right-panel">
+      <div class="panel-head"><h2>学习记录</h2><span class="mini-count">保留</span></div>
+      <div class="student"><b>STUDENT_001</b><small>今天继续保持</small></div>
+      <div class="metric-list"><div class="metric em"><span>今日完成</span><b>12</b></div><div class="metric"><span>累计完成</span><b>286</b></div><div class="metric em"><span>累计正确</span><b>231</b></div><div class="metric"><span>当前错题</span><b>18</b></div><div class="metric"><span>作答次数</span><b>342</b></div></div>
+      <div class="progress-card"><div class="row"><span>今日目标</span><b>12 / 20</b></div><div class="bar"><i></i></div></div>
+      <div class="record-note">记录实时保存在本机。备份、导入、导出和GitHub同步已移动到右上角“扩展设置”。</div>
+    </aside>
+  </main>
+
+  <div class="backdrop" id="backdrop"></div>
+  <aside class="drawer" id="drawer" aria-label="扩展设置">
+    <div class="drawer-head"><h2>扩展设置</h2><button class="close" id="closeDrawer">关闭</button></div>
+    <div class="setting-group"><h3>学习记录</h3><p>平时不占用右侧栏空间，需要时在这里完成备份和迁移。</p><div class="setting-actions"><button class="btn primary">立即备份</button><button class="btn">设置保存目录</button><button class="btn">分享／下载JSON</button><button class="btn">导入并合并</button></div></div>
+    <div class="setting-group"><h3>跨设备同步</h3><p>连接独立私有记录仓库，自动拉取并合并当前学习者的最新记录。</p><div class="setting-actions"><button class="btn soft">GitHub记录同步</button><button class="btn">查看同步状态</button></div></div>
+    <div class="setting-group"><h3>学习者与设备</h3><p>学习者ID、设备名称、显示密度和题图缩放在此统一设置。</p><div class="setting-actions"><button class="btn">学习者设置</button><button class="btn">显示与题图</button></div></div>
+  </aside>
+  <div class="prototype-note">本地布局示例 V1 · 物理分辨率 2880×1800 · 按常见200%缩放模拟 1440×900</div>
+  <script>
+    const drawer=document.getElementById("drawer"),backdrop=document.getElementById("backdrop");
+    function setDrawer(open){drawer.classList.toggle("open",open);backdrop.classList.toggle("open",open)}
+    document.getElementById("openDrawer").onclick=()=>setDrawer(true);document.getElementById("closeDrawer").onclick=()=>setDrawer(false);backdrop.onclick=()=>setDrawer(false);document.addEventListener("keydown",event=>{if(event.key==="Escape")setDrawer(false)});
+  </script>
+</body>
+</html>

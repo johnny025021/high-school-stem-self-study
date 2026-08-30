@@ -1,10 +1,11 @@
 {
   "subject_id": "chemistry",
   "subject_name": "化学",
-  "page_version": "1.0.0-architecture",
+  "page_version": "1.1.0-pad-landscape",
   "page_path": "学科/化学/index.html",
   "question_root": "题库/化学",
   "record_root": "学习记录/化学",
   "database_name": "general_learning_question_bank_stem_chemistry_v1",
-  "migration_source": "Future reviewed and frozen chemistry book packages"
+  "migration_source": "Future reviewed and frozen chemistry book packages",
+  "publication_status": "architecture_published_pad_landscape"
 }
