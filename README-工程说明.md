@@ -2,7 +2,7 @@
 
 ## 使用入口
 
-正式使用入口为 GitHub Pages。统一首页只负责选择学科，数学、物理、化学分别进入独立界面。本地仍可双击 `启动数理化自学系统.cmd` 进行离线开发和验收。
+正式使用入口为 [GitHub Pages](https://johnny025021.github.io/high-school-stem-self-study/)。统一首页只负责选择学科，数学、物理、化学分别进入独立界面。本地仍可双击 `启动数理化自学系统.cmd` 进行离线开发和验收。
 
 ## 工程边界
 
@@ -60,8 +60,8 @@
 
 ## GitHub 发布与隐私
 
-- 公开仓库保存网页、配置、在线目录和题库 ZIP。
-- 私有仓库建议命名为 `stembank-learning-records`，只保存 `records/<subject>/<profile>/latest.json`。
+- 公开仓库 [high-school-stem-self-study](https://github.com/johnny025021/high-school-stem-self-study) 保存网页、配置、在线目录和题库 ZIP。
+- 私有仓库 `stembank-learning-records` 已建立，只保存 `records/<subject>/<profile>/latest.json`。
 - 私有仓库必须预先包含 `main` 分支。令牌只授予该私有仓库的 Contents 读取和写入权限。
 - 访问令牌只保存在用户选择的浏览器本地存储中，不得写入任何工程文件或提交到 Git。
 - 公共电脑不要勾选“记住在这台个人设备上”；使用结束后点击“断开连接”。
@@ -74,4 +74,4 @@
 
 ## 下一阶段
 
-先完成人工界面复核和 GitHub Pages 在线下载验证；确认数学功能无误后，再验收、接入物理10章候选题库。化学保留完整数据接口，等待首本书籍解析、人工复核和冻结。
+GitHub Pages 首页、数学30包目录和第1章在线下载已经验证。下一步由用户在个人设备上一次性连接私有学习记录仓库并验证双向同步；随后再验收、接入物理10章候选题库。化学保留完整数据接口，等待首本书籍解析、人工复核和冻结。
