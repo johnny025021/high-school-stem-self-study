@@ -1,0 +1,20 @@
+{
+  "status": "passed",
+  "release_commit": "5bc4aff2cf850d8cd956300797c8b893c95235b2",
+  "system_version": "1.5.0",
+  "chemistry_page_version": "3.4.0",
+  "catalog_chapters": 4,
+  "book_questions": 607,
+  "book_sections": 33,
+  "tested_download_package": "PKG_CHEM_JINDIAN_GUIDE_SH_B1_C04",
+  "tested_download_questions": 160,
+  "tested_download_sections": 9,
+  "tested_lesson_id": "c04-s04-l02",
+  "tested_lesson_questions": 20,
+  "knowledge_images_loaded": 5,
+  "question_image": {"width": 2208, "height": 395, "loaded": true},
+  "answer_image": {"width": 1724, "height": 237, "loaded": true},
+  "pad_css_viewport": {"width": 1440, "height": 900, "overflow_x": 0, "overflow_y": 0},
+  "console_errors": 0,
+  "console_warnings": 0
+}
