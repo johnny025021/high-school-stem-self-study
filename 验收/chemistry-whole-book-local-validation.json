@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "chemistry_packages": 4,
+  "questions": 607,
+  "sections": 33,
+  "knowledge_segments": 146,
+  "packages": [
+    {
+      "package_id": "PKG_CHEM_JINDIAN_GUIDE_SH_B1_C01",
+      "questions": 166,
+      "sections": 9,
+      "knowledge_segments": 39,
+      "sha256": "2c26ce50be75cabe19a2e68f522725ddeeb09212f3d7885debad341f560cc906"
+    },
+    {
+      "package_id": "PKG_CHEM_JINDIAN_GUIDE_SH_B1_C02",
+      "questions": 176,
+      "sections": 9,
+      "knowledge_segments": 40,
+      "sha256": "7c405787101fcc69aad280918a2dae1038db5ab6e8b8ea7c5b1a3adafcee0786"
+    },
+    {
+      "package_id": "PKG_CHEM_JINDIAN_GUIDE_SH_B1_C03",
+      "questions": 105,
+      "sections": 6,
+      "knowledge_segments": 26,
+      "sha256": "98cfc81adf3f87048d642a20b48cca3303bcd62d81cad97bd0eb57866a6bf9ec"
+    },
+    {
+      "package_id": "PKG_CHEM_JINDIAN_GUIDE_SH_B1_C04",
+      "questions": 160,
+      "sections": 9,
+      "knowledge_segments": 41,
+      "sha256": "e973d02b980af204fb213fdbfa82e987f237d833fcaacac3889207bfca83bcb3"
+    }
+  ],
+  "errors": []
+}

@@ -1,7 +1,7 @@
 {
   "app_id": "general_learning_question_bank_stem",
   "app_name": "高中数理化自主学习",
-  "app_version": "1.4.0-pad-landscape",
+  "app_version": "1.5.0-chemistry-whole-book",
   "offline_first": true,
   "entry": "index.html",
   "subjects": ["math", "physics", "chemistry"],
@@ -11,5 +11,5 @@
     "secondary_conclusion_memory"
   ],
   "question_schema_version": "1.1",
-  "record_schema_version": "1.0"
+  "record_schema_version": "2.0"
 }
