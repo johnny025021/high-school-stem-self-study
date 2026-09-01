@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#4338ca">
-<title>STEMBank 高中化学自主学习 V3.4.0 正式版</title>
+<title>STEMBank 高中化学自主学习 V3.5.0 本地复核版</title>
   <link rel="manifest" href="app.webmanifest">
   <style>
     :root{--indigo:#28714b;--indigo2:#eaf7ef;--ink:#172033;--muted:#64748b;--line:#dfe5ee;--bg:#f4f6fa;--green:#08785d;--amber:#a95f12;--red:#b42318;--blue:#155eef}
@@ -102,11 +102,16 @@
     @media(orientation:landscape) and (min-width:1061px){
       html,body{height:100%}body{overflow:hidden}.top{position:relative;height:52px;padding:7px 12px}.top h1{font-size:17px}.eyebrow{font-size:10px}.top-actions{gap:5px}.top-actions .pill{padding:4px 7px;font-size:10px}.top-actions .btn{padding:6px 8px;font-size:11px}#recordPill,#openSettings{display:none}
       .chemistry-module-tabs{position:relative;top:auto;height:42px;padding:5px 12px;gap:6px}.chemistry-module-tabs-left,.chemistry-module-tabs-right{gap:6px}.chemistry-module-tab,.chemistry-module-tabs .btn{padding:7px 9px;font-size:11px}
-      .layout,.memory-layout{width:100%;max-width:none;height:calc(100dvh - 94px);margin:0;padding:8px;display:grid;grid-template-columns:clamp(165px,15.5vw,190px) minmax(0,1fr) clamp(140px,12.5vw,160px);gap:8px;overflow:hidden}
+      .layout,.memory-layout{width:100%;max-width:none;height:calc(100dvh - 138px);margin:0;padding:8px;display:grid;grid-template-columns:clamp(165px,15.5vw,190px) minmax(0,1fr) clamp(140px,12.5vw,160px);gap:8px;overflow:hidden}
       .sidebar,.memory-sidebar,.memory-record-sidebar{position:static;top:auto;align-self:stretch;min-width:0;min-height:0;overflow:auto;padding:9px;font-size:11px;scrollbar-width:thin}.sidebar h2{font-size:14px;margin-bottom:7px}.section-title{font-size:10px;margin:9px 0 5px;padding-top:7px}.field{margin:6px 0}.field span{font-size:10px;margin-bottom:3px}.field select,.field input{padding:6px 7px;border-radius:7px;font-size:11px}.btn{border-radius:8px}.small{padding:6px 7px;font-size:10px}.compact-actions{gap:4px;margin-bottom:6px}.catalog-selectors{gap:4px;margin:6px 0}.lesson-picker,.scope-summary{padding:7px;margin:6px 0;border-radius:9px}.lesson-picker small{font-size:9px}.chapter-list{max-height:210px;gap:4px;margin-top:5px}.chapter-check{grid-template-columns:18px minmax(0,1fr);gap:4px;padding:6px;font-size:10px}.chapter-check input{width:15px;height:15px}.chapter-check small{font-size:8px}.chapter-check .chapter-state{display:none}.quick-scope{gap:4px}.quick-scope button{padding:6px;font-size:9px}.quick-scope button small{font-size:8px}.difficulty-picks,.practice-options{grid-template-columns:1fr;gap:4px}.difficulty-picks label{padding:6px;font-size:9px}.advanced-filter{padding:6px;margin:5px 0}.range-summary{padding:6px;margin:6px 0}.range-summary>b{font-size:14px}.begin-large{padding:8px;font-size:12px}
       .question,.memory-question-card{min-height:0;height:100%;align-self:stretch;border-radius:12px}.question.practice-running{min-height:0}.qhead{padding:8px 11px}.tag{font-size:9px;padding:3px 6px}.qbody{padding:11px 14px;min-height:0;overflow:auto;scrollbar-width:thin}.knowledge{font-size:11px;margin-bottom:8px}.stem{font-size:15px;line-height:1.7}.source-img{margin:7px auto}.answer{margin-top:10px;padding:11px}.qfoot{padding:7px 9px;gap:5px}.qfoot .btn{padding:7px 9px;font-size:10px}.study-dashboard{padding:14px}.dashboard-metrics{gap:5px;margin:10px 0}.dashboard-metrics>div{padding:7px}.dashboard-metrics b{font-size:15px}.dashboard-note{padding:8px;font-size:11px}.memory-practice-panel{min-height:0;height:100%}
       .metrics{gap:5px}.metric{padding:7px;border-radius:8px}.metric span{font-size:9px}.metric b{font-size:16px}.sidebar>.status-box .meta-mini,.memory-record-sidebar>.status-box .meta-mini{display:none}.status-box{padding:7px;font-size:10px}.sidebar>.tools,.memory-record-sidebar>.tools{display:none}
     }
+
+    /* V3.5.0 书籍优先：保留各书原有工作区 */
+    .subject-bookbar{height:44px;background:#fff;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto minmax(420px,760px) 1fr;align-items:center;gap:10px;padding:5px 16px}.subject-bookbar-title{font-size:12px;font-weight:800;color:var(--muted);white-space:nowrap}.subject-bookbar .catalog-selectors{display:grid;grid-template-columns:minmax(150px,.7fr) minmax(220px,1.3fr);gap:7px}.subject-bookbar .field{margin:0}.subject-bookbar .field span{display:none}.subject-bookbar .field select{padding:7px 9px}.subject-bookbar-note{font-size:10px;color:var(--muted);text-align:right}.sidebar>.catalog-selectors{display:none}
+    @media(max-width:1050px){.subject-bookbar{height:auto;grid-template-columns:1fr;padding:8px 16px}.subject-bookbar .catalog-selectors{grid-template-columns:1fr}.subject-bookbar-note{display:none}}
+    @media(orientation:landscape) and (min-width:1061px){.subject-bookbar{height:44px;padding:5px 12px}}
 
   </style>
 </head>
@@ -115,13 +120,21 @@
   <div><p class="eyebrow">STEMBank 化学 · GitHub 在线题库版</p><h1>高中化学自主学习</h1></div>
   <div class="top-actions">
     <a class="btn outline small home-link" href="../../index.html">← 选择学科</a>
-    <span class="pill" id="versionPill">化学 V3.4.0 正式版</span>
+    <span class="pill" id="versionPill">化学 V3.5.0 本地复核版</span>
     <span class="pill warn" id="rootPill">在线题库加载中</span>
     <span class="pill warn" id="recordPill">未设置记录保存目录</span>
     <button class="btn primary small" id="openImport">＋ 导入题库</button>
     <button class="btn outline small" id="openSettings">设置</button>
   </div>
 </header>
+<section class="subject-bookbar" aria-label="选择化学书籍">
+  <span class="subject-bookbar-title">选择书籍</span>
+  <div class="catalog-selectors" aria-label="化学题库选择">
+    <label class="field"><span>题库大类</span><select id="chemistryLibrarySelect"><option value="">正在读取在线目录…</option></select></label>
+    <label class="field"><span>书籍</span><select id="chemistryBookSelect"><option value="">请先选择题库大类</option></select></label>
+  </div>
+  <span class="subject-bookbar-note">选书后保留该书原有栏目与左侧操作</span>
+</section>
 <nav class="chemistry-module-tabs" aria-label="化学学习板块">
   <div class="chemistry-module-tabs-left">
     <button type="button" class="chemistry-module-tab on" data-chemistry-module="chapter_practice" title="章节、专项、综合练习卷和试卷练习">章节练习</button>
@@ -141,10 +154,6 @@
     <div class="compact-actions">
       <button class="btn primary small" id="openImportSide">＋ 导入题库</button>
       <button class="btn outline small" id="openPackageManagerSide">题库管理</button>
-    </div>
-    <div class="catalog-selectors" aria-label="化学题库选择">
-      <label class="field"><span>题库大类</span><select id="chemistryLibrarySelect"><option value="">正在读取在线目录…</option></select></label>
-      <label class="field"><span>书籍</span><select id="chemistryBookSelect"><option value="">请先选择题库大类</option></select></label>
     </div>
     <div class="scope-summary">
       <div><span>当前学习范围</span><b id="activeScopeSummary">0章 · 0题</b></div>
@@ -1362,7 +1371,7 @@ async function disconnectCloudSyncP311(){if(!confirm("断开本设备的 GitHub 
 const saveAssessmentP311=saveAssessment,reportCurrentErrorP311=reportCurrentError,saveMemoryAssessmentP311=saveMemoryAssessmentV220;
 saveAssessment=async function(){const before=events.length;await saveAssessmentP311();if(events.length>before)scheduleGitHubSyncP311()};reportCurrentError=async function(){const before=feedback.length;await reportCurrentErrorP311();if(feedback.length!==before)scheduleGitHubSyncP311()};saveMemoryAssessmentV220=async function(){const before=events.length;await saveMemoryAssessmentP311();if(events.length>before)scheduleGitHubSyncP311()};
 function bindP311Handlers(){$("exportJson").onclick=()=>void shareOrDownloadRecordP311();$("memoryExportJson").onclick=()=>void shareOrDownloadRecordP311();$("openCloudSync").onclick=openCloudSyncP311;$("saveCloudSync").onclick=()=>void saveCloudSyncP311();$("syncCloudNow").onclick=()=>void syncGitHubRecordP311("manual");$("disconnectCloudSync").onclick=()=>void disconnectCloudSyncP311();window.addEventListener("online",()=>{if(P311.syncDirty)void syncGitHubRecordP311("online")})}
-async function initV310(){await initV220();const lesson=await dbGet(STORES.settings,"chemistry_lesson_v310");V310.lessonId=String(lesson?.value||"all");bindV310Handlers();bindP311Handlers();await loadCloudSyncConfigP311();renderChapterList();renderChemistryLessonSelectorV310();updateChemistryOnlineUiV310();refreshRangeCount();$("versionPill").textContent="化学 V3.4.0 正式版";$("versionPill").title="STEMBank 化学 V3.4.0 正式版 · 金典导学案必修第一册4章 · Pad横屏紧凑布局 · 题库/书籍/章节/节选择 · GitHub 在线按章缓存 · 私有学习记录同步";if(P311.syncConfig&&P311.syncToken)void syncGitHubRecordP311("startup")}
+async function initV310(){await initV220();const lesson=await dbGet(STORES.settings,"chemistry_lesson_v310");V310.lessonId=String(lesson?.value||"all");bindV310Handlers();bindP311Handlers();await loadCloudSyncConfigP311();renderChapterList();renderChemistryLessonSelectorV310();updateChemistryOnlineUiV310();refreshRangeCount();$("versionPill").textContent="化学 V3.5.0 本地复核版";$("versionPill").title="STEMBank 化学 V3.5.0 · 书籍优先选择 · 保留各书原有工作区 · 金典导学案必修第一册4章 · Pad横屏紧凑布局 · GitHub 在线按章缓存 · 私有学习记录同步";if(P311.syncConfig&&P311.syncToken)void syncGitHubRecordP311("startup")}
 /* ======================= V3.1.0 统一在线题库与课次选择层结束 ======================= */
 
 /* ======================= V3.3.0 化学课程知识与原书上下文层 ======================= */
