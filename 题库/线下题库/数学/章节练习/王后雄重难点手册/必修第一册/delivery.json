@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "delivery_mode": "offline",
+  "subject_id": "math",
+  "book_id": "MATH_WHX_KEYPOINT_B1",
+  "book_name": "王后雄重难点手册·高中数学 必修第一册",
+  "packages": [
+    {
+      "package_id": "PKG_MATH_WHX_KEYPOINT_B1_C01",
+      "chapter_id": "MATH_WHX_KEYPOINT_B1_C01",
+      "chapter_name": "第1章 集合与常用逻辑用语",
+      "file_name": "MATH_WHX_KEYPOINT_B1_C01_V1.0_REVIEWED_FROZEN.zip",
+      "file_size": 110683801,
+      "sha256": "338fc0f4b82a019c19c30725663c3e49c1aaa8b1cc49877faf8eba9725358fe6",
+      "question_count": 105,
+      "status": "reviewed_frozen"
+    }
+  ],
+  "student_import": "在数学网页打开题库管理，选择本文件夹或直接选择ZIP；首次导入后缓存在当前设备。",
+  "github_upload": false
+}

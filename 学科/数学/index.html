@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#4338ca">
-  <title>STEMBank 数学 V3.3.0 · 高中数学自主学习</title>
+  <title>STEMBank 数学 V3.4.0 · 高中数学自主学习</title>
   <link rel="manifest" href="app.webmanifest">
   <style>
     :root{--indigo:#4338ca;--indigo2:#eef2ff;--ink:#172033;--muted:#64748b;--line:#dfe5ee;--bg:#f4f6fa;--green:#08785d;--amber:#a95f12;--red:#b42318;--blue:#155eef}
@@ -136,7 +136,7 @@
 <header class="top">
   <div><p class="eyebrow">STEMBank 数学 · GitHub 在线题库版</p><h1>高中数学自主学习</h1></div>
   <div class="top-actions">
-    <span class="pill" id="versionPill">数学 V3.3.0</span>
+    <span class="pill" id="versionPill">数学 V3.4.0</span>
     <span class="pill warn" id="rootPill">在线题库加载中</span>
     <span class="pill warn" id="recordPill">未设置记录保存目录</span>
     <button class="btn primary small" id="openImport">题库来源</button>
@@ -166,7 +166,7 @@
   <aside class="card sidebar">
     <h2>章节题库</h2>
     <div class="compact-actions">
-      <button class="btn primary small" id="openImportSide">在线/本地题库</button>
+      <button class="btn primary small" id="openImportSide">在线/线下题库</button>
       <button class="btn outline small" id="openPackageManagerSide">题库管理</button>
     </div>
     <div class="scope-summary">
@@ -428,9 +428,9 @@
     <div class="import-grid">
       <div class="import-card online-source-note"><h3>GitHub 在线题库</h3><p id="onlineCatalogStatus">网页会自动读取在线目录。学生只需选择题库和章节，所选章节会下载一次并缓存到当前设备。</p><button class="btn primary wide" id="refreshOnlineCatalog">刷新在线目录</button></div>
       <div class="import-card"><h3>一课一练整书导入</h3><p>选择“题库交付包_V1.0”文件夹。V3 会核对交付清单、九章数量、题量与 SHA-256，再一次导入并加入学习范围。</p><button class="btn primary wide" id="chooseBookFolder">选择整书交付包</button></div>
-      <div class="import-card"><h3>选择题库根目录</h3><p>选择任意可读写目录，系统递归查找其中全部章节 ZIP。题库目录只负责读取题库，不再决定学习记录的保存位置。</p><button class="btn outline wide" id="chooseRoot">选择根目录</button></div>
-      <div class="import-card"><h3>选择题库文件夹</h3><p>兼容模式。选择任意文件夹，递归扫描全部章节 ZIP 并缓存到浏览器；不要求固定目录名称。</p><button class="btn outline wide" id="chooseFolder">选择文件夹</button></div>
-      <div class="import-card"><h3>导入章节 ZIP</h3><p>一次可多选一个或多个章节 ZIP。同章新版会更新，学习记录保持不变。</p><button class="btn outline wide" id="chooseZip">选择 ZIP</button></div>
+      <div class="import-card"><h3>选择线下题库根目录</h3><p>推荐选择“题库/线下题库/数学”或其中某本书的目录，系统递归查找章节 ZIP。题库目录只负责读取题库，不影响学习记录。</p><button class="btn outline wide" id="chooseRoot">选择线下题库目录</button></div>
+      <div class="import-card"><h3>选择线下题库文件夹</h3><p>Pad兼容模式：选择线下题库文件夹，递归扫描全部章节 ZIP 并缓存到浏览器。</p><button class="btn outline wide" id="chooseFolder">选择线下题库文件夹</button></div>
+      <div class="import-card"><h3>导入线下章节 ZIP</h3><p>可直接选择一个或多个本地章节 ZIP；首次导入后缓存在当前设备，学习记录保持不变。</p><button class="btn outline wide" id="chooseZip">选择线下 ZIP</button></div>
     </div>
     <div class="progress hidden" id="importProgress"><i id="progressBar"></i></div><div class="progress-text" id="progressText"></div>
     <div id="importResult"></div>
@@ -536,7 +536,7 @@
 <script>
 "use strict";
 const APP={
-appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.3.0",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
+appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.4.0",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
 };
 const STORES={packageMeta:"package_meta",packageFiles:"package_files",events:"events",feedback:"feedback",settings:"settings",handles:"handles"};
 const TYPES={single_choice:"单选题",multiple_choice:"多选题",true_false:"判断题",fill_blank:"填空题",solution:"解答题"};
@@ -670,7 +670,7 @@ async function inspectZipBlob(blob,fileName="章节题库.zip"){
   const parsed=JSON.parse(fflate.strFromU8(slim[qkey]));if(!parsed||!Array.isArray(parsed.questions)||!parsed.questions.length)throw new Error(`${fileName} 的 questions.json 无有效题目`);
   const mkey=findJsonKey(slim,/(^|\/)manifest\.json$/i),manifest=mkey?JSON.parse(fflate.strFromU8(slim[mkey])):{};
   const packageId=manifest.package_id||parsed.package_id||fileName.replace(/\.zip$/i,"");
-  const subjectId=manifest.subject_id||parsed.questions[0]?.subject_id||"";if(subjectId!==APP.subjectId)throw new Error(`${fileName} 学科为 ${subjectId||"未知"}，当前数学模块拒绝导入`);
+  const rawSubjectId=manifest.subject_id||parsed.questions[0]?.subject_id||"",subjectId=rawSubjectId==="mathematics"?"math":rawSubjectId;if(subjectId!==APP.subjectId)throw new Error(`${fileName} 学科为 ${rawSubjectId||"未知"}，当前数学模块拒绝导入`);
   if(majorVersion(manifest.schema_version||parsed.schema_version||"1")>majorVersion(APP.questionSchemaVersion))throw new Error(`${fileName} 题库结构版本过新，当前 HTML 无法兼容`);
   const questions=parsed.questions.filter(q=>q.is_active!==false&&["verified","image_verified","needs_review"].includes(q.content_status));
   return{package_id:packageId,subject_id:subjectId,book_id:manifest.book_id||questions[0]?.book_id||"",book_code:manifest.book_code||questions[0]?.book_code||"",chapter_id:manifest.chapter_id||questions[0]?.chapter_id||"",chapter_name:manifest.chapter_name||questions[0]?.chapter_name||fileName,package_name:manifest.package_name||fileName.replace(/\.zip$/i,""),package_version:String(manifest.package_version||parsed.version||"1.0"),question_schema_version:String(manifest.schema_version||parsed.schema_version||"1.0"),question_count:Number(manifest.question_count||questions.length),file_name:fileName,question_ids:questions.map(q=>q.question_id).filter(Boolean),question_index:questions.map(q=>compactQuestionV21(q,packageId)),manifest}
@@ -890,7 +890,7 @@ function scopeCountsV211(){
 function updateDashboardV211(state="ready"){
   const c=scopeCountsV211(),today=localDateKeyV21(),todayCount=new Set(events.filter(e=>localDateKeyV21(e.occurred_at)===today).map(e=>e.question_id)).size,available=filteredQuestions().length;
   $("dashboardToday").textContent=todayCount;$("dashboardScope").textContent=`${V21.activePackageIds.size}章 · ${c.total}题`;$("dashboardUnseen").textContent=c.unseen;$("dashboardWrong").textContent=c.wrong;$("dashboardAvailable").textContent=available;
-  const noBank=!c.total;if(state==="complete"){$("dashboardTitle").textContent="本轮练习已完成";$("dashboardNote").textContent=`今天累计完成 ${todayCount} 题。可继续练未做题，或回顾当前错题。`}else if(noBank){$("dashboardTitle").textContent="请选择题库和章节";$("dashboardNote").textContent="左侧在线题库已经就绪；勾选想练习的章节并点击“应用章节选择”，网页会按需下载并缓存。"}else{$("dashboardTitle").textContent="准备开始今天的练习";$("dashboardNote").textContent=`当前选择：${scopeLabelV211(V211.scope)} · ${[...V211.difficulty].sort().map(difficultyLabelV211).join("＋")||"全部难度"} · ${V211.limit?`本次${V211.limit}题`:"全部符合题目"}。`}
+  const noBank=!c.total;if(state==="complete"){$("dashboardTitle").textContent="本轮练习已完成";$("dashboardNote").textContent=`今天累计完成 ${todayCount} 题。可继续练未做题，或回顾当前错题。`}else if(noBank){$("dashboardTitle").textContent="请选择题库和章节";const currentLibrary=typeof selectedLibraryV302==="function"?selectedLibraryV302():null,needsOffline=currentLibrary?.packages?.some(x=>typeof packageDeliveryModeV340==="function"&&packageDeliveryModeV340(x)==="offline"&&!packageMetas.has(x.package_id));$("dashboardNote").textContent=needsOffline?"当前书籍采用线下题库，请先打开“在线/线下题库”导入章节 ZIP，再选择章节开始学习。":"左侧在线题库已经就绪；勾选想练习的章节并点击“应用章节选择”，网页会按需下载并缓存。"}else{$("dashboardTitle").textContent="准备开始今天的练习";$("dashboardNote").textContent=`当前选择：${scopeLabelV211(V211.scope)} · ${[...V211.difficulty].sort().map(difficultyLabelV211).join("＋")||"全部难度"} · ${V211.limit?`本次${V211.limit}题`:"全部符合题目"}。`}
   $("dashboardStartUnseen").disabled=c.unseen===0;$("dashboardStartWrong").disabled=c.wrong===0
 }
 function showDashboardV211(state="ready"){$("emptyState").classList.remove("hidden");$("practiceView").classList.add("hidden");document.querySelector(".question").classList.remove("practice-running");V211.practiceStarted=false;updateDashboardV211(state)}
@@ -1585,8 +1585,24 @@ initializeChapter=function(){initializeChapterV311();renderLessonPickerV312();re
 refreshRangeCount=function(){refreshRangeCountV311();updateLessonHelpV312(filteredQuestions().length)};
 async function loadLessonSelectionV312(){const saved=await dbGet(STORES.settings,"lesson_selection_by_library_v312");V312.selectedByLibrary=saved?.value&&typeof saved.value==="object"?saved.value:{};renderLessonPickerV312();refreshRangeCount()}
 function bindV312Handlers(){$("lesson").onchange=()=>{V312.selectedByLibrary[V302.selectedLibraryId||"one_lesson"]=$("lesson").value;void dbPut(STORES.settings,{key:"lesson_selection_by_library_v312",value:V312.selectedByLibrary});refreshRangeCount()}}
-async function initV312(){await initV311();await loadLessonSelectionV312();bindV312Handlers();$("versionPill").textContent="数学 V3.3.0";$("versionPill").title="STEMBank 数学 V3.3.0 · 书籍优先选择 · 保留各书原有工作区 · Pad横屏紧凑布局 · GitHub 在线题库 · 私有学习记录同步"}
+async function initV312(){await initV311();await loadLessonSelectionV312();bindV312Handlers();$("versionPill").textContent="数学 V3.4.0";$("versionPill").title="STEMBank 数学 V3.4.0 · 在线与线下题库分流 · 书籍优先选择 · Pad横屏紧凑布局 · 私有学习记录同步"}
 /* ======================= V3.1.2 章下课次快捷选择层结束 ======================= */
+
+
+/* ======================= V3.4.0 在线／线下题库交付层 ======================= */
+function packageDeliveryModeV340(meta){return String(meta?.delivery_mode||meta?.remote_catalog?.delivery_mode||meta?.remote_update?.delivery_mode||"online")}
+remoteMetaV311=function(remote){const mode=packageDeliveryModeV340(remote);return{...remote,package_version:String(remote.version||remote.package_version||"1.0"),file_name:remote.file_name||(remote.path||"").split("/").pop(),source_kind:mode==="offline"?"offline_catalog":"remote",remote_url:mode==="online"?remote.remote_url||"":"",remote_catalog:remote,manifest:{...(remote.manifest||{}),module_id:remote.module_id||remote.manifest?.module_id,mother_question_count:remote.mother_question_count||remote.manifest?.mother_question_count}}};
+loadOnlineCatalog=async function(){catalogPackages.clear();V311.catalogError="";try{const url=new URL(V311.catalogUrl,location.href),response=await fetch(url,{cache:"no-store"});if(!response.ok)throw new Error(`HTTP ${response.status}`);const catalog=await response.json();if(catalog.app_id&&catalog.app_id!==APP.appId)throw new Error("在线目录应用标识不匹配");const base=new URL("../",url);for(const item of(catalog.packages||[])){if(item.subject_id!==APP.subjectId||item.published===false)continue;const mode=String(item.delivery_mode||"online"),remoteUrl=mode==="online"&&item.path?new URL(item.path,base).href:"";catalogPackages.set(item.package_id,{...item,delivery_mode:mode,remote_url:remoteUrl,source_kind:mode==="offline"?"offline_catalog":"remote"})}V311.catalogLoadedAt=nowIso()}catch(error){V311.catalogError=error.message;console.info("题库目录未加载：",error.message)}updateOnlineUiV311()};
+mergedPackageEntries=function(){const ids=new Set([...catalogPackages.keys(),...packageMetas.keys()]),entries=[];for(const id of ids){const local=packageMetas.get(id),remote=catalogPackages.get(id),remoteMeta=remote&&remoteMetaV311(remote);if(local&&remoteMeta){if(packageDeliveryModeV340(remoteMeta)==="online"&&compareVersion(remoteMeta.package_version,local.package_version)>0)entries.push({...local,delivery_mode:"online",remote_update:remoteMeta});else entries.push({...remoteMeta,...local,delivery_mode:packageDeliveryModeV340(remoteMeta),remote_catalog:remote})}else entries.push(local||remoteMeta)}return entries.filter(Boolean).sort((a,b)=>String(a.chapter_id||a.package_id).localeCompare(String(b.chapter_id||b.package_id),"zh-CN",{numeric:true}))};
+packageState=function(meta){if(meta.remote_update)return["有更新","update"];if(packageMetas.has(meta.package_id))return["本地可用","local"];if(packageDeliveryModeV340(meta)==="offline")return["需线下导入","update"];if(meta.source_kind==="remote")return["在线可用","remote"];return["本地可用","local"]};
+getPackageBlob=async function(meta){const cached=await dbGet(STORES.packageFiles,meta.package_id);if(cached?.blob&&!meta.remote_update)return cached.blob;if(meta.source_kind==="directory"){if(!rootHandle||!(await verifyPermission(rootHandle,false,false)))throw new Error("线下题库目录授权已失效，且浏览器中没有该 ZIP 缓存；请重新选择线下题库目录");const file=await getFileByPath(rootHandle,meta.relative_path),blob=new Blob([file],{type:"application/zip"});await dbPut(STORES.packageFiles,{package_id:meta.package_id,blob});return blob}if(packageDeliveryModeV340(meta)==="offline")throw new Error("本书采用线下题库，请打开“在线/线下题库”，选择线下题库文件夹或直接导入章节 ZIP");const remote=meta.remote_update||meta.remote_catalog||catalogPackages.get(meta.package_id),url=meta.remote_url||remote?.remote_url;if(!url)throw new Error("浏览器缓存中没有该题库 ZIP，请导入线下题库文件");setProgress(`正在下载：${meta.chapter_name||meta.package_id}`,15);const response=await fetch(url,{cache:"no-store"});if(!response.ok)throw new Error(`在线题库下载失败（HTTP ${response.status}）`);const blob=await response.blob(),ins=await inspectZipBlob(blob,meta.file_name||decodeURIComponent(url.split("/").pop()));if(ins.package_id!==meta.package_id)throw new Error("下载包与题库目录的 package_id 不一致");ins.source_kind="cache";ins.remote_url=url;ins.file_size=blob.size;ins.imported_at=nowIso();await registerPackage(ins,blob);await refreshPackages();await requestPersistentStorageV311();return blob};
+updateOnlineUiV311=function(){const rows=[...catalogPackages.values()],online=rows.filter(x=>packageDeliveryModeV340(x)==="online").length,offline=rows.length-online,pill=$("rootPill"),status=$("onlineCatalogStatus");if(rows.length){pill.textContent=`在线${online}章 · 线下${offline}章`;pill.className="pill ok";if(status)status.textContent=`题库目录已连接：${online}个在线章节可按需下载，${offline}个线下章节需从本地ZIP导入。`}else{pill.textContent=V311.catalogError?"题库目录连接失败":"题库目录加载中";pill.className="pill warn";if(status)status.textContent=V311.catalogError?`题库目录读取失败：${V311.catalogError}。仍可使用线下ZIP导入。`:"正在读取题库目录…"}};
+const renderBankSelectorV340Base=renderBankSelectorV302,renderChapterListV340Base=renderChapterList;
+function refreshMathDeliveryHintsV340(){const libraries=libraryEntriesV302();for(const option of $("bankSelect").options){const lib=libraries.find(x=>x.id===option.value);if(lib?.packages.length&&lib.packages.every(x=>packageDeliveryModeV340(x)==="offline"&&!packageMetas.has(x.package_id))&&!option.textContent.includes("线下导入"))option.textContent+=` · 线下导入`}const lib=selectedLibraryV302();if(lib){const offline=lib.packages.filter(x=>packageDeliveryModeV340(x)==="offline"&&!packageMetas.has(x.package_id)).length,cached=lib.packages.filter(x=>packageMetas.has(x.package_id)).length,online=lib.packages.length-offline;$('bankDescription').textContent=offline?`在线可下载 ${online} 章 · 待线下导入 ${offline} 章 · 本机已缓存 ${cached} 章。请打开“在线/线下题库”导入ZIP。`:`在线 ${online} 章 · 本机已缓存 ${cached} 章。勾选后点击“应用章节选择”。`}let unavailable=0,total=0;for(const input of document.querySelectorAll("[data-package-check]")){total++;const id=input.dataset.packageCheck,meta=mergedPackageEntries().find(x=>x.package_id===id);if(meta&&packageDeliveryModeV340(meta)==="offline"&&!packageMetas.has(id)){unavailable++;input.checked=false;input.disabled=true;V303.draftIds.delete(id);const card=input.closest(".chapter-check");card?.classList.remove("selected");card?.setAttribute("title","本章采用线下题库，请先通过题库管理导入ZIP");const small=card?.querySelector("small");if(small&&!small.textContent.includes("需先导入"))small.textContent+=` · 需先导入线下ZIP`}}updateChapterApplyButtonV303();if(total&&unavailable===total)$("loadChapter").disabled=true}
+renderBankSelectorV302=function(){renderBankSelectorV340Base();refreshMathDeliveryHintsV340()};
+renderChapterList=function(){renderChapterListV340Base();refreshMathDeliveryHintsV340()};
+const initV312V340Base=initV312;initV312=async function(){await initV312V340Base();$("bankSelect").addEventListener("change",()=>setTimeout(refreshMathDeliveryHintsV340,0));refreshMathDeliveryHintsV340()};
+/* ======================= V3.4.0 在线／线下题库交付层结束 ======================= */
 
 
 initV312().catch(e=>notice(`初始化失败：${e.message}`,6000));

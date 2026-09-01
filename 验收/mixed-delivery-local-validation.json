@@ -1,0 +1,47 @@
+{
+  "validation_id": "mixed-delivery-local-v1",
+  "validated_at": "2026-09-01",
+  "release_state": "local_review_only",
+  "public_online_packages_preserved": true,
+  "catalog": {
+    "total_packages": 45,
+    "online_packages": 44,
+    "offline_packages": 1
+  },
+  "subjects": {
+    "math": {
+      "html_version": "3.4.0",
+      "online_packages": 30,
+      "offline_packages": 1,
+      "offline_import_test": {
+        "package_id": "MATH_WHX_KEYPOINT_B1_C01",
+        "question_count": 105,
+        "result": "passed"
+      }
+    },
+    "physics": {
+      "html_version": "3.4.0",
+      "online_packages": 10,
+      "offline_packages": 0,
+      "result": "passed"
+    },
+    "chemistry": {
+      "html_version": "3.6.0",
+      "online_packages": 4,
+      "offline_packages": 0,
+      "result": "passed"
+    }
+  },
+  "offline_zip": {
+    "relative_path": "题库/线下题库/数学/章节练习/王后雄重难点手册/必修第一册/MATH_WHX_KEYPOINT_B1_C01_V1.0_REVIEWED_FROZEN.zip",
+    "sha256": "338FC0F4B82A019C19C30725663C3E49C1AAA8B1CC49877FAF8EBA9725358FE6",
+    "git_ignored": true
+  },
+  "checks": {
+    "json_parse": "passed",
+    "javascript_syntax": "passed",
+    "git_diff_check": "passed",
+    "legacy_online_package_files_changed": false,
+    "browser_offline_import": "passed"
+  }
+}

@@ -10,9 +10,9 @@
   });
 
   const SUBJECTS = [
-    { id: "math", name: "数学", db: "general_learning_question_bank_stem_math_v1", html: "3.3.0" },
-    { id: "physics", name: "物理", db: "general_learning_question_bank_stem_physics_v1", html: "3.3.0" },
-    { id: "chemistry", name: "化学", db: "general_learning_question_bank_stem_chemistry_v1", html: "3.5.0" }
+    { id: "math", name: "数学", db: "general_learning_question_bank_stem_math_v1", html: "3.4.0" },
+    { id: "physics", name: "物理", db: "general_learning_question_bank_stem_physics_v1", html: "3.4.0" },
+    { id: "chemistry", name: "化学", db: "general_learning_question_bank_stem_chemistry_v1", html: "3.6.0" }
   ];
   const notice = (text, ms = 4200) => {
     const box = document.getElementById("homeNotice");

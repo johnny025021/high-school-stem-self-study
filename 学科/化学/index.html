@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#4338ca">
-<title>STEMBank 高中化学自主学习 V3.5.0 本地复核版</title>
+<title>STEMBank 高中化学自主学习 V3.6.0 本地复核版</title>
   <link rel="manifest" href="app.webmanifest">
   <style>
     :root{--indigo:#28714b;--indigo2:#eaf7ef;--ink:#172033;--muted:#64748b;--line:#dfe5ee;--bg:#f4f6fa;--green:#08785d;--amber:#a95f12;--red:#b42318;--blue:#155eef}
@@ -120,7 +120,7 @@
   <div><p class="eyebrow">STEMBank 化学 · GitHub 在线题库版</p><h1>高中化学自主学习</h1></div>
   <div class="top-actions">
     <a class="btn outline small home-link" href="../../index.html">← 选择学科</a>
-    <span class="pill" id="versionPill">化学 V3.5.0 本地复核版</span>
+    <span class="pill" id="versionPill">化学 V3.6.0 本地复核版</span>
     <span class="pill warn" id="rootPill">在线题库加载中</span>
     <span class="pill warn" id="recordPill">未设置记录保存目录</span>
     <button class="btn primary small" id="openImport">＋ 导入题库</button>
@@ -424,10 +424,10 @@
   <div class="modal-head"><b>导入题库</b><button class="close-x" data-close="importDialog">×</button></div>
   <div class="modal-body">
     <div class="import-grid">
-      <div class="import-card"><h3>选择题库根目录</h3><p>选择任意可读写目录，系统递归查找其中全部章节 ZIP。题库目录只负责读取题库，不再决定学习记录的保存位置。</p><button class="btn primary wide" id="chooseRoot">选择根目录</button></div>
-      <div class="import-card"><h3>选择题库文件夹</h3><p>兼容模式。选择任意文件夹，递归扫描全部章节 ZIP 并缓存到浏览器；不要求固定目录名称。</p><button class="btn outline wide" id="chooseFolder">选择文件夹</button></div>
+      <div class="import-card"><h3>选择线下题库根目录</h3><p>推荐选择“题库/线下题库/化学”或其中某本书的目录，系统递归查找章节 ZIP。</p><button class="btn primary wide" id="chooseRoot">选择线下题库目录</button></div>
+      <div class="import-card"><h3>选择线下题库文件夹</h3><p>Pad兼容模式：选择线下题库文件夹，递归扫描全部章节 ZIP 并缓存到浏览器。</p><button class="btn outline wide" id="chooseFolder">选择线下题库文件夹</button></div>
       <div class="import-card"><h3>GitHub 在线题库</h3><p id="onlineCatalogStatus">网页会自动读取在线目录；只下载学生选中的章节，并缓存到当前设备。</p><button class="btn primary wide" id="refreshOnlineCatalog">刷新在线目录</button></div>
-      <div class="import-card"><h3>导入章节 ZIP</h3><p>离线时也可一次多选一个或多个章节 ZIP。同章新版会更新，学习记录保持不变。</p><button class="btn outline wide" id="chooseZip">选择 ZIP</button></div>
+      <div class="import-card"><h3>导入线下章节 ZIP</h3><p>可直接选择一个或多个本地章节 ZIP；首次导入后缓存在当前设备。</p><button class="btn outline wide" id="chooseZip">选择线下 ZIP</button></div>
     </div>
     <div class="progress hidden" id="importProgress"><i id="progressBar"></i></div><div class="progress-text" id="progressText"></div>
     <div id="importResult"></div>
@@ -527,7 +527,7 @@
 <script>
 "use strict";
 const APP={
-appId:"general_learning_question_bank",subjectId:"chemistry",subjectName:"化学",htmlVersion:"3.5.0",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_chemistry_v1",dbVersion:1
+appId:"general_learning_question_bank",subjectId:"chemistry",subjectName:"化学",htmlVersion:"3.6.0",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_chemistry_v1",dbVersion:1
 };
 const STORES={packageMeta:"package_meta",packageFiles:"package_files",events:"events",feedback:"feedback",settings:"settings",handles:"handles"};
 const TYPES={single_choice:"单选题",multiple_choice:"多选题",true_false:"判断题",fill_blank:"填空题",solution:"解答题",unclassified:"原书题型"};
@@ -1371,7 +1371,14 @@ async function disconnectCloudSyncP311(){if(!confirm("断开本设备的 GitHub 
 const saveAssessmentP311=saveAssessment,reportCurrentErrorP311=reportCurrentError,saveMemoryAssessmentP311=saveMemoryAssessmentV220;
 saveAssessment=async function(){const before=events.length;await saveAssessmentP311();if(events.length>before)scheduleGitHubSyncP311()};reportCurrentError=async function(){const before=feedback.length;await reportCurrentErrorP311();if(feedback.length!==before)scheduleGitHubSyncP311()};saveMemoryAssessmentV220=async function(){const before=events.length;await saveMemoryAssessmentP311();if(events.length>before)scheduleGitHubSyncP311()};
 function bindP311Handlers(){$("exportJson").onclick=()=>void shareOrDownloadRecordP311();$("memoryExportJson").onclick=()=>void shareOrDownloadRecordP311();$("openCloudSync").onclick=openCloudSyncP311;$("saveCloudSync").onclick=()=>void saveCloudSyncP311();$("syncCloudNow").onclick=()=>void syncGitHubRecordP311("manual");$("disconnectCloudSync").onclick=()=>void disconnectCloudSyncP311();window.addEventListener("online",()=>{if(P311.syncDirty)void syncGitHubRecordP311("online")})}
-async function initV310(){await initV220();const lesson=await dbGet(STORES.settings,"chemistry_lesson_v310");V310.lessonId=String(lesson?.value||"all");bindV310Handlers();bindP311Handlers();await loadCloudSyncConfigP311();renderChapterList();renderChemistryLessonSelectorV310();updateChemistryOnlineUiV310();refreshRangeCount();$("versionPill").textContent="化学 V3.5.0 本地复核版";$("versionPill").title="STEMBank 化学 V3.5.0 · 书籍优先选择 · 保留各书原有工作区 · 金典导学案必修第一册4章 · Pad横屏紧凑布局 · GitHub 在线按章缓存 · 私有学习记录同步";if(P311.syncConfig&&P311.syncToken)void syncGitHubRecordP311("startup")}
+function packageDeliveryModeC360(meta){return String(meta?.delivery_mode||meta?.remote_catalog?.delivery_mode||meta?.remote_update?.delivery_mode||"online")}
+loadOnlineCatalog=async function(){try{catalogPackages.clear();const url=new URL("../../data/catalog.json",location.href),r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error(`HTTP ${r.status}`);const c=await r.json();if(c.app_id&&c.app_id!==APP.appId)return;const base=new URL("../",url);for(const p of(c.packages||[])){if(p.subject_id!==APP.subjectId||p.published===false)continue;const mode=String(p.delivery_mode||"online");catalogPackages.set(p.package_id,{...p,delivery_mode:mode,remote_url:mode==="online"&&p.path?new URL(p.path,base).href:"",source_kind:mode==="offline"?"offline_catalog":"remote"})}}catch(e){console.info("题库目录未加载：",e.message)}};
+mergedPackageEntries=function(){const ids=new Set([...catalogPackages.keys(),...packageMetas.keys()]),out=[];for(const id of ids){const local=packageMetas.get(id),remote=catalogPackages.get(id),mode=packageDeliveryModeC360(remote);if(local&&remote){if(mode==="online"&&compareVersion(remote.version,local.package_version)>0)out.push({...local,delivery_mode:mode,remote_update:{...remote,package_version:remote.version,remote_catalog:remote}});else out.push({...remote,...local,delivery_mode:mode,remote_catalog:remote})}else if(local)out.push(local);else if(remote)out.push({...remote,package_id:id,package_version:remote.version,file_name:remote.file_name||(remote.path||"").split("/").pop(),source_kind:mode==="offline"?"offline_catalog":"remote",remote_catalog:remote})}return out.sort((a,b)=>String(a.chapter_id||a.package_id).localeCompare(String(b.chapter_id||b.package_id),"zh-CN",{numeric:true}))};
+packageState=function(meta){if(meta.remote_update)return["有更新","update"];if(packageMetas.has(meta.package_id))return["本地可用","local"];if(packageDeliveryModeC360(meta)==="offline")return["需线下导入","update"];if(meta.source_kind==="remote")return["在线可用","remote"];return["本地可用","local"]};
+getPackageBlob=async function(meta){const cached=await dbGet(STORES.packageFiles,meta.package_id);if(cached?.blob&&!meta.remote_update)return cached.blob;if(meta.source_kind==="directory"){if(!rootHandle||!(await verifyPermission(rootHandle,false,false)))throw new Error("线下题库目录授权已失效，请重新选择线下题库目录");const file=await getFileByPath(rootHandle,meta.relative_path),blob=new Blob([file],{type:"application/zip"});await dbPut(STORES.packageFiles,{package_id:meta.package_id,blob});return blob}if(packageDeliveryModeC360(meta)==="offline")throw new Error("本书采用线下题库，请选择线下题库文件夹或直接导入章节ZIP");const remote=meta.remote_update||meta.remote_catalog||catalogPackages.get(meta.package_id),url=meta.remote_url||remote?.remote_url;if(!url)throw new Error("浏览器缓存中没有该题库ZIP，请导入线下题库文件");setProgress(`正在下载：${meta.chapter_name}`,15);const r=await fetch(url,{cache:"no-store"});if(!r.ok)throw new Error(`在线题库下载失败（HTTP ${r.status}）`);const blob=await r.blob(),ins=await inspectZipBlob(blob,meta.file_name||url.split("/").pop());ins.source_kind="cache";ins.remote_url=url;ins.file_size=blob.size;ins.imported_at=nowIso();await registerPackage(ins,blob);await refreshPackages();return blob};
+updateChemistryOnlineUiV310=function(){const rows=[...catalogPackages.values()],online=rows.filter(x=>packageDeliveryModeC360(x)==="online").length,offline=rows.length-online,status=$("onlineCatalogStatus");if(rootPermission!=="readwrite"){const pill=$("rootPill");pill.textContent=rows.length?`在线${online}章 · 线下${offline}章`:"题库目录连接失败";pill.className=`pill ${rows.length?"ok":"warn"}`}if(status)status.textContent=rows.length?`题库目录已连接：${online}个在线章节可按需下载，${offline}个线下章节需本地导入。`:"题库目录暂未读取成功；仍可使用线下ZIP导入。"};
+const renderChapterListC360Base=renderChapterList;renderChapterList=function(){renderChapterListC360Base();for(const input of document.querySelectorAll("[data-package-check]")){const id=input.dataset.packageCheck,meta=mergedPackageEntries().find(x=>x.package_id===id);if(meta&&packageDeliveryModeC360(meta)==="offline"&&!packageMetas.has(id)){input.checked=false;input.disabled=true;V21.checkedPackageIds.delete(id);input.closest(".chapter-check")?.setAttribute("title","本章需先导入线下题库ZIP")}}};
+async function initV310(){await initV220();const lesson=await dbGet(STORES.settings,"chemistry_lesson_v310");V310.lessonId=String(lesson?.value||"all");bindV310Handlers();bindP311Handlers();await loadCloudSyncConfigP311();renderChapterList();renderChemistryLessonSelectorV310();updateChemistryOnlineUiV310();refreshRangeCount();$("versionPill").textContent="化学 V3.6.0 本地复核版";$("versionPill").title="STEMBank 化学 V3.6.0 · 在线与线下题库分流 · 书籍优先选择 · Pad横屏紧凑布局 · 私有学习记录同步";if(P311.syncConfig&&P311.syncToken)void syncGitHubRecordP311("startup")}
 /* ======================= V3.1.0 统一在线题库与课次选择层结束 ======================= */
 
 /* ======================= V3.3.0 化学课程知识与原书上下文层 ======================= */

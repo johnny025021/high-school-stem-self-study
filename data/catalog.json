@@ -3,7 +3,8 @@
   "app_id": "general_learning_question_bank",
   "catalog_id": "STEMBANK_GITHUB_CATALOG_V1",
   "generated_at": "2026-09-01T22:45:00+08:00",
-  "delivery_mode": "github_pages_on_demand",
+  "delivery_mode": "mixed_online_and_offline",
+  "default_future_delivery_mode": "offline",
   "package_count": 45,
   "packages": [
     {
@@ -27,6 +28,9 @@
       "file_size": 110683801,
       "sha256": "338fc0f4b82a019c19c30725663c3e49c1aaa8b1cc49877faf8eba9725358fe6",
       "path": "https://github.com/johnny025021/high-school-stem-self-study/releases/download/math-whx-b1-c01-v1.0/MATH_WHX_KEYPOINT_B1_C01_V1.0_REVIEWED_FROZEN.zip",
+      "delivery_mode": "offline",
+      "offline_relative_path": "题库/线下题库/数学/章节练习/王后雄重难点手册/必修第一册/MATH_WHX_KEYPOINT_B1_C01_V1.0_REVIEWED_FROZEN.zip",
+      "delivery_note": "大体积原书学习题库，请从本地ZIP或线下题库文件夹导入。已上传Release仅保留，不再作为网页下载源。",
       "published": true
     },
     {

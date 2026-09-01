@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "policy": "preserve_existing_online_paths",
+  "default_future_delivery_mode": "offline",
+  "legacy_online_roots": {
+    "math": "题库/数学",
+    "physics": "题库/物理",
+    "chemistry": "题库/化学"
+  },
+  "notes": [
+    "Existing uploaded ZIP files remain byte-identical at their current paths.",
+    "New large book-derived packages should be stored under 题库/线下题库 and imported locally.",
+    "Only packages explicitly marked delivery_mode=online are fetched by the web application."
+  ]
+}

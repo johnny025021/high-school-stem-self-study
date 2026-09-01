@@ -16,3 +16,9 @@ Thumbs.db
 # Generated local validation snapshots contain node-local paths.
 验收/structure-validation.json
 验收/*-acceptance-results.json
+
+# Large offline-delivery question banks stay on the learner's device.
+# Keep directory instructions in Git, but never publish ZIP payloads by mistake.
+题库/线下题库/**/*.zip
+题库/线下题库/**/*.ZIP
+题库/线下题库/**/*.part
