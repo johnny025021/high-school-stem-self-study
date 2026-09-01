@@ -1,7 +1,7 @@
 {
   "subject_id": "math",
   "subject_name": "数学",
-  "page_version": "3.2.0",
+  "page_version": "3.3.0",
   "page_path": "学科/数学/index.html",
   "question_root": "题库/数学",
   "record_root": "学习记录/数学",
@@ -10,6 +10,7 @@
   "migration_status": "complete_published_pad_landscape",
   "included_libraries": [
     "2026高中数学一课一练上册",
-    "高中数学母题400"
+    "高中数学母题400",
+    "王后雄重难点手册必修第一册"
   ]
 }

@@ -43,6 +43,7 @@ a { color: inherit; }
 .top-actions { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
 .status-pill { padding: 7px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); font-size: 12px; font-weight: 800; }
 .status-ready { background: #e8f7f1; color: var(--success); }
+.home-record-export{border:0;border-radius:10px;padding:9px 13px;background:var(--accent);color:#fff;font-weight:800;cursor:pointer}.home-record-export:disabled{opacity:.65;cursor:wait}.home-notice{position:fixed;left:50%;bottom:24px;z-index:60;transform:translateX(-50%);max-width:min(760px,90vw);padding:11px 16px;border-radius:10px;background:#172033;color:#fff;box-shadow:0 10px 32px rgba(15,23,42,.3);font-size:13px;text-align:center}
 
 .home-shell { width: min(1240px, calc(100% - 32px)); margin: 24px auto 36px; }
 .welcome-panel {

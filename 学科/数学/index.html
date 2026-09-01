@@ -536,7 +536,7 @@
 <script>
 "use strict";
 const APP={
-appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.2.0",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
+appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.3.0",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
 };
 const STORES={packageMeta:"package_meta",packageFiles:"package_files",events:"events",feedback:"feedback",settings:"settings",handles:"handles"};
 const TYPES={single_choice:"单选题",multiple_choice:"多选题",true_false:"判断题",fill_blank:"填空题",solution:"解答题"};
@@ -577,7 +577,7 @@ async function inspectZipBlob(blob,fileName="章节题库.zip"){
   const parsed=JSON.parse(fflate.strFromU8(slim[qkey]));if(!parsed||!Array.isArray(parsed.questions)||!parsed.questions.length)throw new Error(`${fileName} 的 questions.json 无有效题目`);
   const mkey=findJsonKey(slim,/(^|\/)manifest\.json$/i),manifest=mkey?JSON.parse(fflate.strFromU8(slim[mkey])):{};
   const packageId=manifest.package_id||parsed.package_id||fileName.replace(/\.zip$/i,"");
-  const subjectId=manifest.subject_id||parsed.questions[0]?.subject_id||"";if(subjectId!==APP.subjectId)throw new Error(`${fileName} 学科为 ${subjectId||"未知"}，当前数学模块拒绝导入`);
+  const rawSubjectId=manifest.subject_id||parsed.questions[0]?.subject_id||"",subjectId=rawSubjectId==="mathematics"?"math":rawSubjectId;if(subjectId!==APP.subjectId)throw new Error(`${fileName} 学科为 ${rawSubjectId||"未知"}，当前数学模块拒绝导入`);
   if(majorVersion(manifest.schema_version||parsed.schema_version||"1")>majorVersion(APP.questionSchemaVersion))throw new Error(`${fileName} 题库结构版本过新，当前 HTML 无法兼容`);
   const questions=parsed.questions;
   return {package_id:packageId,subject_id:subjectId,book_id:manifest.book_id||questions[0]?.book_id||"",book_code:manifest.book_code||questions[0]?.book_code||"",chapter_id:manifest.chapter_id||questions[0]?.chapter_id||"",chapter_name:manifest.chapter_name||questions[0]?.chapter_name||fileName,package_name:manifest.package_name||fileName.replace(/\.zip$/i,""),package_version:String(manifest.package_version||parsed.version||"1.0"),question_schema_version:String(manifest.schema_version||parsed.schema_version||"1.0"),question_count:Number(manifest.question_count||questions.length),file_name:fileName,question_ids:questions.map(q=>q.question_id).filter(Boolean),manifest}
@@ -586,7 +586,7 @@ async function parseFullPackage(blob,expectedMeta){
   const bytes=new Uint8Array(await blob.arrayBuffer()),archive=fflate.unzipSync(bytes),qkey=findJsonKey(archive,/(^|\/)(data\/)?questions\.json$/i);if(!qkey)throw new Error("题库 ZIP 中没有 questions.json");
   const parsed=JSON.parse(fflate.strFromU8(archive[qkey])),mkey=findJsonKey(archive,/(^|\/)manifest\.json$/i),manifest=mkey?JSON.parse(fflate.strFromU8(archive[mkey])):{};
   const packageId=manifest.package_id||parsed.package_id;if(expectedMeta&&packageId!==expectedMeta.package_id)throw new Error("题库包 ID 与登记信息不一致");
-  if((manifest.subject_id||parsed.questions?.[0]?.subject_id)!==APP.subjectId)throw new Error("题库学科不一致，已拒绝加载");
+  const rawSubjectId=manifest.subject_id||parsed.questions?.[0]?.subject_id,normalizedSubjectId=rawSubjectId==="mathematics"?"math":rawSubjectId;if(normalizedSubjectId!==APP.subjectId)throw new Error("题库学科不一致，已拒绝加载");
   let root="";if(qkey.endsWith("data/questions.json"))root=qkey.slice(0,-"data/questions.json".length);else root=qkey.slice(0,-"questions.json".length);
   const questions=(parsed.questions||[]).filter(q=>q.is_active!==false&&["verified","image_verified","needs_review"].includes(q.content_status));
   return {archive,root,manifest,parsed,questions,package_id:packageId}
@@ -1414,6 +1414,7 @@ function selectedLibraryV302(){return libraryEntriesV302().find(x=>x.id===V302.s
 function renderBankSelectorV302(){
   if(!$("bankSelect"))return;const libraries=libraryEntriesV302();if(!libraries.some(x=>x.id===V302.selectedLibraryId))V302.selectedLibraryId=libraries[0]?.id||"one_lesson";
   $("bankSelect").innerHTML=libraries.length?libraries.map(x=>`<option value="${esc(x.id)}">${esc(x.label)}（${x.packages.length}章）</option>`).join(""):'<option value="">尚未导入题库</option>';$("bankSelect").value=V302.selectedLibraryId;
+  document.body.dataset.mathLibrary=V302.selectedLibraryId;document.querySelector(".book-status")?.classList.toggle("hidden",V302.selectedLibraryId!=="one_lesson");
   const lib=selectedLibraryV302(),active=lib?.packages.filter(x=>V21.activePackageIds.has(x.package_id)).length||0;$("bankDescription").textContent=lib?`当前题库已导入 ${lib.packages.length} 个章节，已选择 ${active} 个章节进入练习范围。`:"请先导入题库 ZIP。"
 }
 function isQuestionPracticePackageV220(meta){const m=packageModuleV220(meta);return !MEMORY_MODULES_V220.has(m)&&(QUESTION_MODULES_V220.has(m)||m==="mother_question"||!m)}
@@ -1492,7 +1493,7 @@ function libraryEntriesV302(){
   const map=new Map();for(const meta of mergedPackageEntries()){if(MEMORY_MODULES_V220.has(packageModuleV220(meta)))continue;const id=packageLibraryIdV302(meta);if(!map.has(id))map.set(id,{id,label:packageLibraryLabelV302(meta,id),packages:[]});map.get(id).packages.push(meta)}const rank={one_lesson:0,core400:1,gaoxiao_peiyou:2};return[...map.values()].sort((a,b)=>(rank[a.id]??9)-(rank[b.id]??9)||a.label.localeCompare(b.label,"zh-CN"))
 }
 function renderBankSelectorV302(){
-  if(!$('bankSelect'))return;const libraries=libraryEntriesV302();if(!libraries.some(x=>x.id===V302.selectedLibraryId))V302.selectedLibraryId=libraries[0]?.id||"one_lesson";$('bankSelect').innerHTML=libraries.length?libraries.map(x=>`<option value="${esc(x.id)}">${esc(x.label)}（${x.packages.length}章）</option>`).join(""):'<option value="">在线目录暂不可用</option>';$('bankSelect').value=V302.selectedLibraryId;const lib=selectedLibraryV302(),cached=lib?.packages.filter(x=>packageMetas.has(x.package_id)).length||0,active=lib?.packages.filter(x=>V21.activePackageIds.has(x.package_id)).length||0;$('bankDescription').textContent=lib?`在线 ${lib.packages.length} 章 · 本机已缓存 ${cached} 章 · 当前练习 ${active} 章。勾选后点击“应用章节选择”。`:(V311.catalogError?`在线目录读取失败：${V311.catalogError}`:"正在读取在线题库目录…")
+  if(!$('bankSelect'))return;const libraries=libraryEntriesV302();if(!libraries.some(x=>x.id===V302.selectedLibraryId))V302.selectedLibraryId=libraries[0]?.id||"one_lesson";$('bankSelect').innerHTML=libraries.length?libraries.map(x=>`<option value="${esc(x.id)}">${esc(x.label)}（${x.packages.length}章）</option>`).join(""):'<option value="">在线目录暂不可用</option>';$('bankSelect').value=V302.selectedLibraryId;document.body.dataset.mathLibrary=V302.selectedLibraryId;document.querySelector('.book-status')?.classList.toggle('hidden',V302.selectedLibraryId!=="one_lesson");const lib=selectedLibraryV302(),cached=lib?.packages.filter(x=>packageMetas.has(x.package_id)).length||0,active=lib?.packages.filter(x=>V21.activePackageIds.has(x.package_id)).length||0;$('bankDescription').textContent=lib?`在线 ${lib.packages.length} 章 · 本机已缓存 ${cached} 章 · 当前练习 ${active} 章。勾选后点击“应用章节选择”。`:(V311.catalogError?`在线目录读取失败：${V311.catalogError}`:"正在读取在线题库目录…")
 }
 function bookPackagesV300(){return mergedPackageEntries().filter(meta=>meta.book_id===V300.bookId&&/^T_MATH_YKYL2026_U1_C\d{2}$/.test(String(meta.chapter_id||""))).sort((a,b)=>String(a.chapter_id).localeCompare(String(b.chapter_id),"zh-CN",{numeric:true}))}
 function renderBookStatusV300(){
