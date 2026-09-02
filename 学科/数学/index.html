@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#4338ca">
-  <title>STEMBank 数学 V3.4.0 · 高中数学自主学习</title>
+  <title>STEMBank 数学 V3.4.1 · 高中数学自主学习</title>
   <link rel="manifest" href="app.webmanifest">
   <style>
     :root{--indigo:#4338ca;--indigo2:#eef2ff;--ink:#172033;--muted:#64748b;--line:#dfe5ee;--bg:#f4f6fa;--green:#08785d;--amber:#a95f12;--red:#b42318;--blue:#155eef}
@@ -130,6 +130,18 @@
     @media(max-width:1050px){.subject-bookbar{height:auto;grid-template-columns:1fr;padding:8px 16px}.subject-bookbar .bank-picker{grid-template-columns:1fr}.subject-bookbar-note{display:none}}
     @media(orientation:landscape) and (min-width:1061px){.subject-bookbar{height:44px;padding:5px 12px}.subject-bookbar .bank-picker small{display:none}}
 
+    /* V3.4.1 王后雄原书学习与解析遮挡 */
+    .original-learning-layout{max-width:1540px;margin:18px auto;display:grid;grid-template-columns:260px minmax(0,1fr) 230px;gap:16px;padding:0 16px}
+    .original-learning-sidebar{align-self:start;position:sticky;top:132px;padding:15px}.original-learning-sidebar h2{font-size:17px;margin:0 0 12px}
+    .original-learning-card{min-height:0;overflow:hidden}.original-learning-head{padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:12px}.original-learning-head h2{font-size:18px;margin:0}.original-learning-pages{padding:16px;background:#eef1f6;display:grid;gap:16px}
+    .original-page{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(30,41,59,.06)}.original-page-toolbar{padding:8px 10px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+    .original-page-frame{position:relative;line-height:0;background:#fff}.original-page-frame>img{display:block;width:100%;height:auto}.original-mask{position:absolute;z-index:2;border:2px solid #e09b19;background:linear-gradient(135deg,#fff6d9,#ffefb6);color:#7a4800;font-weight:800;font-size:12px;line-height:1.35;display:grid;place-items:center;padding:4px;text-align:center;box-shadow:0 2px 8px rgba(122,72,0,.2)}.original-mask:hover{background:#ffe79a}.original-mask.revealed{display:none}
+    .original-annotation-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}.original-page.drawing .original-annotation-canvas{pointer-events:auto;cursor:crosshair}.original-page.drawing .original-mask{pointer-events:none}
+    .original-mask-ratings{padding:9px 10px;display:grid;gap:7px;border-top:1px solid var(--line)}.original-mask-rating{display:grid;grid-template-columns:minmax(120px,1fr) repeat(4,auto);gap:6px;align-items:center;font-size:12px}.original-mask-rating>span{color:var(--muted)}.original-mask-rating button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:6px 8px}.original-mask-rating button.on{border-color:var(--indigo);background:var(--indigo2);color:var(--indigo)}
+    .original-learning-empty{padding:48px 24px;text-align:center;color:var(--muted)}.original-learning-note{font-size:12px;line-height:1.65;color:var(--muted)}
+    @media(max-width:1050px){.original-learning-layout{grid-template-columns:1fr}.original-learning-sidebar{position:static}.original-mask-rating{grid-template-columns:1fr repeat(4,auto)}}
+    @media(orientation:landscape) and (min-width:1061px){.original-learning-layout{width:100%;max-width:none;height:calc(100dvh - 138px);margin:0;padding:8px;grid-template-columns:clamp(165px,15.5vw,190px) minmax(0,1fr) clamp(140px,12.5vw,160px);gap:8px;overflow:hidden}.original-learning-sidebar{position:static;min-height:0;overflow:auto;padding:9px}.original-learning-card{height:100%;overflow:auto}.original-learning-pages{padding:9px;gap:9px}.original-learning-head{padding:9px 12px}.original-learning-head h2{font-size:15px}.original-mask{font-size:10px}}
+
   </style>
 </head>
 <body>
@@ -152,6 +164,7 @@
 <nav class="math-module-tabs" aria-label="数学学习板块">
   <div class="math-module-tabs-left">
     <button type="button" class="math-module-tab on" data-math-module="chapter_practice" title="章节、专项、综合练习卷和试卷练习">章节练习</button>
+    <button type="button" class="math-module-tab hidden" id="originalLearningTab" data-math-module="original_book_learning">原书学习</button>
     <button type="button" class="math-module-tab" data-math-module="formula_memory">公式记忆</button>
     <button type="button" class="math-module-tab" data-math-module="secondary_conclusion_memory">二级结论记忆</button>
   </div>
@@ -416,6 +429,30 @@
   </aside>
 </main>
 
+<main id="originalLearningView" class="original-learning-layout math-module-view hidden">
+  <aside class="card original-learning-sidebar">
+    <h2>原书学习</h2>
+    <div class="alert info">保留原书页面学习；例题解析默认遮挡，点击遮挡区域后再自我评价。</div>
+    <label class="field"><span>章节包</span><select id="originalPackageSelect"><option value="">尚无原书学习内容</option></select></label>
+    <label class="field"><span>学习单元</span><select id="originalLessonSelect"><option value="">请先选择章节</option></select></label>
+    <div class="btn-row"><button class="btn outline small" id="originalRemaskAll">本单元重新遮挡</button></div>
+    <p class="original-learning-note">“圈画”只保存在当前浏览器；掌握评价进入统一学习记录，可随备份 JSON 导出。</p>
+  </aside>
+  <section class="card original-learning-card">
+    <header class="original-learning-head"><div><span class="dashboard-eyebrow">原书学习与例题自测</span><h2 id="originalLearningTitle">请选择章节和学习单元</h2></div><span class="pill" id="originalLearningProgress">0项</span></header>
+    <div id="originalLearningPages" class="original-learning-pages"><div class="original-learning-empty">导入并选择带有原书学习材料的王后雄章节 ZIP。</div></div>
+  </section>
+  <aside class="card original-learning-sidebar">
+    <h2>掌握记录</h2>
+    <div class="metrics">
+      <div class="metric"><span>本单元解析项</span><b id="originalMaskCount">0</b></div>
+      <div class="metric"><span>已评价</span><b id="originalRatedCount">0</b></div>
+      <div class="metric"><span>未掌握/需复习</span><b id="originalWeakCount">0</b></div>
+    </div>
+    <button class="btn primary wide" id="originalReviewWeak">定位下一项未掌握</button>
+  </aside>
+</main>
+
 <input id="folderInput" type="file" webkitdirectory multiple hidden>
 <input id="bookFolderInput" type="file" webkitdirectory multiple hidden>
 <input id="zipInput" type="file" accept=".zip,application/zip" multiple hidden>
@@ -536,7 +573,7 @@
 <script>
 "use strict";
 const APP={
-appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.4.0",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
+appId:"general_learning_question_bank",subjectId:"math",subjectName:"数学",htmlVersion:"3.4.1",recordSchemaVersion:"2.0",questionSchemaVersion:"1.1",minimumCompatibleHtmlVersion:"2.0.0",dbName:"general_learning_question_bank_stem_math_v1",dbVersion:1
 };
 const STORES={packageMeta:"package_meta",packageFiles:"package_files",events:"events",feedback:"feedback",settings:"settings",handles:"handles"};
 const TYPES={single_choice:"单选题",multiple_choice:"多选题",true_false:"判断题",fill_blank:"填空题",solution:"解答题"};
@@ -572,7 +609,7 @@ function findJsonKey(archive,re){return Object.keys(archive).find(k=>re.test(k))
 async function inspectZipBlob(blob,fileName="章节题库.zip"){
   if(!window.fflate)throw new Error("网页内置 ZIP 解压组件未加载");
   const bytes=new Uint8Array(await blob.arrayBuffer());
-  const slim=fflate.unzipSync(bytes,{filter:f=>/(^|\/)(manifest\.json|(?:data\/)?questions\.json)$/i.test(f.name)});
+  const slim=fflate.unzipSync(bytes,{filter:f=>/(^|\/)(manifest\.json|(?:data\/)?questions\.json|(?:data\/)?learning-content\.json)$/i.test(f.name)});
   const qkey=findJsonKey(slim,/(^|\/)(data\/)?questions\.json$/i);if(!qkey)throw new Error(`${fileName} 中没有 questions.json`);
   const parsed=JSON.parse(fflate.strFromU8(slim[qkey]));if(!parsed||!Array.isArray(parsed.questions)||!parsed.questions.length)throw new Error(`${fileName} 的 questions.json 无有效题目`);
   const mkey=findJsonKey(slim,/(^|\/)manifest\.json$/i),manifest=mkey?JSON.parse(fflate.strFromU8(slim[mkey])):{};
@@ -580,16 +617,17 @@ async function inspectZipBlob(blob,fileName="章节题库.zip"){
   const rawSubjectId=manifest.subject_id||parsed.questions[0]?.subject_id||"",subjectId=rawSubjectId==="mathematics"?"math":rawSubjectId;if(subjectId!==APP.subjectId)throw new Error(`${fileName} 学科为 ${rawSubjectId||"未知"}，当前数学模块拒绝导入`);
   if(majorVersion(manifest.schema_version||parsed.schema_version||"1")>majorVersion(APP.questionSchemaVersion))throw new Error(`${fileName} 题库结构版本过新，当前 HTML 无法兼容`);
   const questions=parsed.questions;
-  return {package_id:packageId,subject_id:subjectId,book_id:manifest.book_id||questions[0]?.book_id||"",book_code:manifest.book_code||questions[0]?.book_code||"",chapter_id:manifest.chapter_id||questions[0]?.chapter_id||"",chapter_name:manifest.chapter_name||questions[0]?.chapter_name||fileName,package_name:manifest.package_name||fileName.replace(/\.zip$/i,""),package_version:String(manifest.package_version||parsed.version||"1.0"),question_schema_version:String(manifest.schema_version||parsed.schema_version||"1.0"),question_count:Number(manifest.question_count||questions.length),file_name:fileName,question_ids:questions.map(q=>q.question_id).filter(Boolean),manifest}
+  const learningKey=findJsonKey(slim,/(^|\/)(data\/)?learning-content\.json$/i),learningSummary=learningKey?JSON.parse(fflate.strFromU8(slim[learningKey])):null;
+  return {package_id:packageId,subject_id:subjectId,book_id:manifest.book_id||questions[0]?.book_id||"",book_code:manifest.book_code||questions[0]?.book_code||"",chapter_id:manifest.chapter_id||questions[0]?.chapter_id||"",chapter_name:manifest.chapter_name||questions[0]?.chapter_name||fileName,package_name:manifest.package_name||fileName.replace(/\.zip$/i,""),package_version:String(manifest.package_version||parsed.version||"1.0"),question_schema_version:String(manifest.schema_version||parsed.schema_version||"1.0"),question_count:Number(manifest.question_count||questions.length),file_name:fileName,question_ids:questions.map(q=>q.question_id).filter(Boolean),has_learning_content:!!(learningSummary&&Array.isArray(learningSummary.lessons)&&learningSummary.lessons.length),learning_lesson_count:Array.isArray(learningSummary?.lessons)?learningSummary.lessons.length:0,manifest}
 }
 async function parseFullPackage(blob,expectedMeta){
   const bytes=new Uint8Array(await blob.arrayBuffer()),archive=fflate.unzipSync(bytes),qkey=findJsonKey(archive,/(^|\/)(data\/)?questions\.json$/i);if(!qkey)throw new Error("题库 ZIP 中没有 questions.json");
-  const parsed=JSON.parse(fflate.strFromU8(archive[qkey])),mkey=findJsonKey(archive,/(^|\/)manifest\.json$/i),manifest=mkey?JSON.parse(fflate.strFromU8(archive[mkey])):{};
+  const parsed=JSON.parse(fflate.strFromU8(archive[qkey])),mkey=findJsonKey(archive,/(^|\/)manifest\.json$/i),manifest=mkey?JSON.parse(fflate.strFromU8(archive[mkey])):{},learningKey=findJsonKey(archive,/(^|\/)(data\/)?learning-content\.json$/i),learningContent=learningKey?JSON.parse(fflate.strFromU8(archive[learningKey])):null;
   const packageId=manifest.package_id||parsed.package_id;if(expectedMeta&&packageId!==expectedMeta.package_id)throw new Error("题库包 ID 与登记信息不一致");
   const rawSubjectId=manifest.subject_id||parsed.questions?.[0]?.subject_id,normalizedSubjectId=rawSubjectId==="mathematics"?"math":rawSubjectId;if(normalizedSubjectId!==APP.subjectId)throw new Error("题库学科不一致，已拒绝加载");
   let root="";if(qkey.endsWith("data/questions.json"))root=qkey.slice(0,-"data/questions.json".length);else root=qkey.slice(0,-"questions.json".length);
   const questions=(parsed.questions||[]).filter(q=>q.is_active!==false&&["verified","image_verified","needs_review"].includes(q.content_status));
-  return {archive,root,manifest,parsed,questions,package_id:packageId}
+  return {archive,root,manifest,parsed,questions,learningContent,package_id:packageId}
 }
 function assetUrl(path){if(!currentPackage||!path)return"";const clean=String(path).replace(/^\.?\//,"");let bytes=currentPackage.archive[currentPackage.root+clean]||currentPackage.archive[clean];if(!bytes){const k=Object.keys(currentPackage.archive).find(x=>x.endsWith("/"+clean)||x.endsWith(clean));bytes=k&&currentPackage.archive[k]}if(!bytes)return"";const u=URL.createObjectURL(new Blob([bytes],{type:mime(clean)}));objectUrls.push(u);return u}
 
@@ -1114,7 +1152,7 @@ const V220={
   memoryObjectUrls:[]
 };
 const MEMORY_MODULES_V220=new Set(["formula_memory","secondary_conclusion_memory"]);
-const QUESTION_MODULES_V220=new Set(["chapter_practice","assessment","exam_practice","practice","math_practice"]);
+const QUESTION_MODULES_V220=new Set(["chapter_practice","chapter_practice_and_original_learning","assessment","exam_practice","practice","math_practice"]);
 
 function packageModuleV220(meta){
   return String(meta?.manifest?.module_id||meta?.module_id||"chapter_practice");
@@ -1125,7 +1163,7 @@ function isQuestionPracticePackageV220(meta){
   return !MEMORY_MODULES_V220.has(m)&&(QUESTION_MODULES_V220.has(m)||!m);
 }
 function moduleNameV220(moduleId){
-  return ({chapter_practice:"章节练习",assessment:"试卷练习",formula_memory:"公式记忆",secondary_conclusion_memory:"二级结论记忆"})[moduleId]||moduleId||"章节练习"
+  return ({chapter_practice:"章节练习",chapter_practice_and_original_learning:"章节练习＋原书学习",assessment:"试卷练习",formula_memory:"公式记忆",secondary_conclusion_memory:"二级结论记忆"})[moduleId]||moduleId||"章节练习"
 }
 function compactQuestionV21(q,packageId){
   return{
@@ -1313,7 +1351,7 @@ function bindV220Handlers(){
   $("memoryBackupNow").onclick=()=>forceSnapshot(true);$("memoryOpenRecordLocation").onclick=openRecordLocationV212;$("memoryTestRecordLocation").onclick=testRecordRootV212;$("memoryExportJson").onclick=()=>$("exportJson").click();$("memoryImportRecord").onclick=()=>$("recordInput").click();$("memoryExportCsv").onclick=()=>$("exportCsv").click();$("memoryExportFeedback").onclick=()=>$("exportFeedback").click();$("memoryOpenStats").onclick=openStatsV21
 }
 async function initV220(){
-  await initV212();bindV220Handlers();const saved=await dbGet(STORES.settings,"active_math_module_v220"),moduleId=["chapter_practice","formula_memory","secondary_conclusion_memory"].includes(saved?.value)?saved.value:"chapter_practice";await switchMathModuleV220(moduleId);$("versionPill").title=`记录结构 V${APP.recordSchemaVersion} · 题库结构 V${APP.questionSchemaVersion} · 章节练习/公式记忆/二级结论记忆`
+  await initV212();bindV220Handlers();const saved=await dbGet(STORES.settings,"active_math_module_v220"),moduleId=["chapter_practice","original_book_learning","formula_memory","secondary_conclusion_memory"].includes(saved?.value)?saved.value:"chapter_practice";await switchMathModuleV220(moduleId);$("versionPill").title=`记录结构 V${APP.recordSchemaVersion} · 题库结构 V${APP.questionSchemaVersion} · 章节练习/原书学习/公式记忆/二级结论记忆`
 }
 /* ======================= V2.2.0 多学习板块层结束 ======================= */
 
@@ -1603,6 +1641,66 @@ renderBankSelectorV302=function(){renderBankSelectorV340Base();refreshMathDelive
 renderChapterList=function(){renderChapterListV340Base();refreshMathDeliveryHintsV340()};
 const initV312V340Base=initV312;initV312=async function(){await initV312V340Base();$("bankSelect").addEventListener("change",()=>setTimeout(refreshMathDeliveryHintsV340,0));refreshMathDeliveryHintsV340()};
 /* ======================= V3.4.0 在线／线下题库交付层结束 ======================= */
+
+
+/* ======================= V3.4.1 王后雄原书学习与解析遮挡层 ======================= */
+const V341={packageId:"",lessonId:"",revealed:new Set(),annotations:new Map(),weakCursor:0,loading:false,pendingPackageId:""};
+
+function originalLearningPackagesV341(){
+  return [...packageMetas.values()].filter(meta=>packageLibraryIdV302(meta)===V302.selectedLibraryId&&!!meta.manifest?.learning_content_entry).sort((a,b)=>String(a.chapter_id||a.package_id).localeCompare(String(b.chapter_id||b.package_id),"zh-CN",{numeric:true}))
+}
+function refreshOriginalLearningAvailabilityV341(){
+  const packages=originalLearningPackagesV341(),tab=$("originalLearningTab");tab.classList.toggle("hidden",!packages.length);if(!packages.length&&V220.activeModule==="original_book_learning")void switchMathModuleV220("chapter_practice")
+}
+function guidedLearningEventsV341(){return events.filter(e=>e.module_id==="guided_self_rating")}
+function latestGuidedRatingV341(maskId){let latest=null;for(const e of guidedLearningEventsV341()){if(e.source_question_id!==maskId)continue;if(!latest||String(e.occurred_at)>String(latest.occurred_at))latest=e}return latest}
+function currentOriginalLessonV341(){return currentPackage?.learningContent?.lessons?.find(x=>x.id===V341.lessonId)||currentPackage?.learningContent?.lessons?.[0]||null}
+function currentOriginalSegmentsV341(){const lesson=currentOriginalLessonV341();return lesson?(currentPackage.learningContent.segments||[]).filter(x=>x.lesson_id===lesson.id).sort((a,b)=>Number(a.order||0)-Number(b.order||0)):[]}
+function originalMaskRowsV341(){return currentOriginalSegmentsV341().flatMap(segment=>(segment.mask_regions||[]).map(mask=>({segment,mask}))) }
+function updateOriginalLearningStatsV341(){
+  const rows=originalMaskRowsV341(),rated=rows.filter(x=>latestGuidedRatingV341(x.mask.id)),weak=rows.filter(x=>["partial","unknown"].includes(latestGuidedRatingV341(x.mask.id)?.result));$("originalMaskCount").textContent=rows.length;$("originalRatedCount").textContent=rated.length;$("originalWeakCount").textContent=weak.length;$("originalLearningProgress").textContent=`${rated.length}/${rows.length} 已评价`
+}
+function originalRatingButtonsV341(mask){
+  const result=latestGuidedRatingV341(mask.id)?.result||"";return`<div class="original-mask-rating" data-mask-rating-row="${esc(mask.id)}"><span>${esc(mask.label||"解析")} · ${esc(mask.id)}</span><button type="button" data-guided-rate="correct" class="${result==="correct"?"on":""}">掌握</button><button type="button" data-guided-rate="partial" class="${result==="partial"?"on":""}">模糊</button><button type="button" data-guided-rate="unknown" class="${result==="unknown"?"on":""}">未掌握</button><button type="button" data-remask="${esc(mask.id)}">重新遮挡</button></div>`
+}
+function originalMaskHtmlV341(segment,mask){
+  const box=mask.box_px||[],left=100*Number(box[0]||0)/Number(segment.width||1),top=100*Number(box[1]||0)/Number(segment.height||1),width=100*Number(box[2]||0)/Number(segment.width||1),height=100*Number(box[3]||0)/Number(segment.height||1),revealed=V341.revealed.has(mask.id);return`<button type="button" class="original-mask ${revealed?"revealed":""}" data-reveal-mask="${esc(mask.id)}" style="left:${left}%;top:${top}%;width:${width}%;height:${height}%" aria-label="点击查看${esc(mask.label||"解析")}">点击查看解析</button>`
+}
+function drawOriginalAnnotationsV341(segmentId){
+  const canvas=document.querySelector(`[data-annotation-canvas="${CSS.escape(segmentId)}"]`),img=canvas?.parentElement?.querySelector("img");if(!canvas||!img||!img.clientWidth)return;const ratio=window.devicePixelRatio||1,rect=img.getBoundingClientRect();canvas.width=Math.round(rect.width*ratio);canvas.height=Math.round(rect.height*ratio);const ctx=canvas.getContext("2d");ctx.setTransform(ratio,0,0,ratio,0,0);ctx.clearRect(0,0,rect.width,rect.height);ctx.strokeStyle="#e11d48";ctx.lineWidth=3;ctx.lineCap="round";ctx.lineJoin="round";for(const stroke of(V341.annotations.get(segmentId)||[])){if(stroke.length<2)continue;ctx.beginPath();stroke.forEach((p,i)=>{const x=p[0]*rect.width,y=p[1]*rect.height;i?ctx.lineTo(x,y):ctx.moveTo(x,y)});ctx.stroke()}
+}
+async function loadOriginalAnnotationsV341(segments){for(const segment of segments){const row=await dbGet(STORES.settings,`original_annotation_v341:${currentPackage.package_id}:${segment.id}`);V341.annotations.set(segment.id,Array.isArray(row?.value)?row.value:[])}}
+async function saveOriginalAnnotationsV341(segmentId){await dbPut(STORES.settings,{key:`original_annotation_v341:${currentPackage.package_id}:${segmentId}`,value:V341.annotations.get(segmentId)||[]})}
+function bindOriginalPageV341(page,segment){
+  const canvas=page.querySelector("canvas"),img=page.querySelector("img"),drawButton=page.querySelector("[data-draw-toggle]"),clearButton=page.querySelector("[data-draw-clear]");img.onload=()=>drawOriginalAnnotationsV341(segment.id);if(img.complete)drawOriginalAnnotationsV341(segment.id);drawButton.onclick=()=>{page.classList.toggle("drawing");drawButton.textContent=page.classList.contains("drawing")?"结束圈画":"圈画重点"};clearButton.onclick=async()=>{V341.annotations.set(segment.id,[]);drawOriginalAnnotationsV341(segment.id);await saveOriginalAnnotationsV341(segment.id)};
+  let stroke=null;const point=e=>{const r=canvas.getBoundingClientRect();return[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height]};canvas.onpointerdown=e=>{stroke=[point(e)];(V341.annotations.get(segment.id)||V341.annotations.set(segment.id,[]).get(segment.id)).push(stroke);canvas.setPointerCapture(e.pointerId)};canvas.onpointermove=e=>{if(!stroke)return;stroke.push(point(e));drawOriginalAnnotationsV341(segment.id)};canvas.onpointerup=canvas.onpointercancel=async()=>{if(!stroke)return;stroke=null;await saveOriginalAnnotationsV341(segment.id)}
+}
+async function saveGuidedRatingV341(maskId,result){
+  const lesson=currentOriginalLessonV341(),meta=currentPackage.meta||packageMetas.get(currentPackage.package_id),event={event_id:`${safeName(device.device_id)}_${timestampCompact(new Date()).replace("_","")}_${pad(events.length+1,5)}_${Math.random().toString(36).slice(2,7)}`,question_id:`GUIDED_${maskId}`,source_question_id:maskId,module_id:"guided_self_rating",question_version:"1.0",package_id:currentPackage.package_id,package_version:meta?.package_version||currentPackage.manifest?.package_version||"1.0",package_file_name:meta?.file_name||"",subject_id:APP.subjectId,profile_id:profile.profile_id,book_id:currentPackage.manifest?.book_id||meta?.book_id||"",book_name:currentPackage.manifest?.book_name||"",chapter_id:currentPackage.manifest?.chapter_id||meta?.chapter_id||"",chapter_name:currentPackage.manifest?.chapter_name||meta?.chapter_name||"",section_id:lesson?.id||"",result,occurred_at:nowIso(),device_id:device.device_id,device_name:device.device_name};events.push(event);await dbPut(STORES.events,event);dirtyEvents++;document.querySelectorAll(`[data-mask-rating-row="${CSS.escape(maskId)}"] [data-guided-rate]`).forEach(b=>b.classList.toggle("on",b.dataset.guidedRate===result));updateOriginalLearningStatsV341();if(typeof scheduleGitHubSyncV311==="function")scheduleGitHubSyncV311();if(dirtyEvents>=5)await forceSnapshot(false);notice(result==="correct"?"已记录：掌握":result==="partial"?"已记录：模糊，列入复习":"已记录：未掌握，列入复习")
+}
+async function renderOriginalLessonV341(lessonId){
+  const content=currentPackage?.learningContent,lesson=content?.lessons?.find(x=>x.id===lessonId)||content?.lessons?.[0];if(!lesson){$("originalLearningTitle").textContent=currentPackage?.meta?.chapter_name||"当前章节";$("originalLearningPages").innerHTML=`<div class="original-learning-empty">${esc(content?.coverage?.note||"当前章节包暂未包含原书学习材料，可继续使用章节练习。")}</div>`;updateOriginalLearningStatsV341();return}V341.lessonId=lesson.id;$("originalLessonSelect").value=lesson.id;$("originalLearningTitle").textContent=lesson.name;releaseUrls();const segments=currentOriginalSegmentsV341();await loadOriginalAnnotationsV341(segments);$("originalLearningPages").innerHTML=segments.map(segment=>{const src=assetUrl(segment.path),masks=segment.mask_regions||[];return`<article class="original-page" data-original-segment="${esc(segment.id)}"><div class="original-page-toolbar"><span>${esc(segment.stage_name||lesson.name)} · 第${Number(segment.order||0)}页段</span><span><button class="btn outline small" type="button" data-draw-toggle>圈画重点</button> <button class="btn outline small" type="button" data-draw-clear>清除圈画</button></span></div><div class="original-page-frame">${src?`<img src="${src}" alt="${esc(lesson.name)} 第${Number(segment.order||0)}页段">`:`<div class="alert error">原书图片缺失：${esc(segment.path)}</div>`}<canvas class="original-annotation-canvas" data-annotation-canvas="${esc(segment.id)}"></canvas>${masks.map(mask=>originalMaskHtmlV341(segment,mask)).join("")}</div>${masks.length?`<div class="original-mask-ratings">${masks.map(originalRatingButtonsV341).join("")}</div>`:""}</article>`}).join("")||'<div class="original-learning-empty">本学习单元没有页面。</div>';document.querySelectorAll("[data-original-segment]").forEach(page=>bindOriginalPageV341(page,segments.find(x=>x.id===page.dataset.originalSegment)));document.querySelectorAll("[data-reveal-mask]").forEach(b=>b.onclick=()=>{V341.revealed.add(b.dataset.revealMask);b.classList.add("revealed")});document.querySelectorAll("[data-guided-rate]").forEach(b=>b.onclick=()=>void saveGuidedRatingV341(b.closest("[data-mask-rating-row]").dataset.maskRatingRow,b.dataset.guidedRate));document.querySelectorAll("[data-remask]").forEach(b=>b.onclick=()=>{V341.revealed.delete(b.dataset.remask);document.querySelector(`[data-reveal-mask="${CSS.escape(b.dataset.remask)}"]`)?.classList.remove("revealed")});updateOriginalLearningStatsV341()
+}
+async function selectOriginalPackageV341(packageId){
+  if(!packageId)return;if(V341.loading){V341.pendingPackageId=packageId;return}V341.loading=true;$("originalPackageSelect").disabled=true;try{V341.packageId=packageId;await loadPackageArchiveV21(packageId,true);const lessons=currentPackage.learningContent?.lessons||[];$("originalLessonSelect").innerHTML=lessons.length?lessons.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}</option>`).join(""):'<option value="">本章暂未提供原书材料</option>';$("originalLessonSelect").disabled=!lessons.length;V341.lessonId=lessons.some(x=>x.id===V341.lessonId)?V341.lessonId:lessons[0]?.id||"";await renderOriginalLessonV341(V341.lessonId)}finally{V341.loading=false;$("originalPackageSelect").disabled=false;const pending=V341.pendingPackageId;V341.pendingPackageId="";if(pending&&pending!==packageId)void selectOriginalPackageV341(pending)}
+}
+async function openOriginalLearningV341(){
+  const packages=originalLearningPackagesV341();$("originalPackageSelect").innerHTML=packages.length?packages.map(x=>`<option value="${esc(x.package_id)}">${esc(x.chapter_name||x.package_name||x.package_id)}${x.has_learning_content===false?"（材料待补齐）":""}</option>`).join(""):'<option value="">当前书籍没有原书学习材料</option>';$("originalPackageSelect").disabled=!packages.length;if(!packages.length){$("originalLearningPages").innerHTML='<div class="original-learning-empty">当前书籍采用章节练习模式，没有可用的原书学习页面。</div>';return}const preferred=packages.find(x=>x.package_id===V341.packageId)||packages.find(x=>V21.activePackageIds.has(x.package_id))||packages[0];$("originalPackageSelect").value=preferred.package_id;await selectOriginalPackageV341(preferred.package_id)
+}
+function remaskOriginalLessonV341(){V341.revealed.clear();document.querySelectorAll("[data-reveal-mask]").forEach(x=>x.classList.remove("revealed"));notice("本单元解析已重新遮挡")}
+function reviewWeakOriginalV341(){const weak=originalMaskRowsV341().filter(x=>["partial","unknown"].includes(latestGuidedRatingV341(x.mask.id)?.result));if(!weak.length)return notice("本单元没有已登记的未掌握项");const target=weak[V341.weakCursor++%weak.length];document.querySelector(`[data-mask-rating-row="${CSS.escape(target.mask.id)}"]`)?.scrollIntoView({behavior:"smooth",block:"center"})}
+
+const switchMathModuleV341Base=switchMathModuleV220;
+switchMathModuleV220=async function(moduleId){
+  $("originalLearningView").classList.toggle("hidden",moduleId!=="original_book_learning");if(moduleId!=="original_book_learning")return switchMathModuleV341Base(moduleId);V220.activeModule=moduleId;document.querySelectorAll("[data-math-module]").forEach(b=>b.classList.toggle("on",b.dataset.mathModule===moduleId));$("chapterPracticeView").classList.add("hidden");$("memoryPracticeView").classList.add("hidden");await dbPut(STORES.settings,{key:"active_math_module_v220",value:moduleId});await openOriginalLearningV341()
+};
+const renderBankSelectorV341Base=renderBankSelectorV302;
+renderBankSelectorV302=function(){renderBankSelectorV341Base();refreshOriginalLearningAvailabilityV341()};
+const chapterEventsV341Base=chapterEventsV220;
+chapterEventsV220=function(){return chapterEventsV341Base().filter(e=>e.module_id!=="guided_self_rating")};
+const initV312V341Base=initV312;
+initV312=async function(){await initV312V341Base();$("originalPackageSelect").onchange=()=>void selectOriginalPackageV341($("originalPackageSelect").value);$("originalLessonSelect").onchange=()=>void renderOriginalLessonV341($("originalLessonSelect").value);$("originalRemaskAll").onclick=remaskOriginalLessonV341;$("originalReviewWeak").onclick=reviewWeakOriginalV341;refreshOriginalLearningAvailabilityV341();$("versionPill").textContent="数学 V3.4.1";$("versionPill").title="STEMBank 数学 V3.4.1 · 组合章节包兼容 · 王后雄原书学习 · 解析遮挡 · 圈画与自评记录"};
+/* ======================= V3.4.1 王后雄原书学习与解析遮挡层结束 ======================= */
 
 
 initV312().catch(e=>notice(`初始化失败：${e.message}`,6000));
